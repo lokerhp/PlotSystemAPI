@@ -20,4 +20,4 @@ class PlotSystem {
         let SQL = "SELECT * FROM plotsystem_buildteams WHERE api_key_id = (SELECT id FROM plotsystem_api_keys WHERE api_key = '?')";
         return await database.query(SQL, [api_key]);
     }
-}
+} 
