@@ -17,10 +17,12 @@ const query = async (sql, params) => {
         .then(conn => {
 
             // Execute the query
-            const rows = conn.query(sql, params)
-            .then(r => {
-                console.log(r); // [{ "1": 1 }]
-                resolve(r);
+            conn.query(sql, params)
+            .then(rows => {
+                if(process.env.DEBUG)
+                    console.log("SQL result: " + JSON.stringify(rows[0])); // { "1": 1 }
+
+                resolve(rows);
             })
             .catch(err => {
                 console.log("There was an error when executing a SQL query. Error:")
