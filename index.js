@@ -3,17 +3,17 @@ const express = require('express')
 const app = express()
 
 // Plot System Imports
-const settings = require('./settings.js')
-const database = require('./src/database.js')
+const settings = require('./src/Settings.js')
+const database = require('./src/Database.js')
 
  
 app.get('/', function (req, res) {
 
-  database.query("SELECT * FROM `BuildingServers` WHERE `BuildingServerID` = 'Building1NYC'")
+  database.query("SELECT * FROM `plotsystem_builders`")
   .then(rows => {
   
-    const ID = rows[0].BuildingServerID;
-    res.send('Hello World \n' + ID)
+    const ID = rows;
+    res.send(JSON.stringify(ID))
   })
   .catch(err => {
     console.log(err);
@@ -33,4 +33,5 @@ app.listen(settings.port, () => console.log(
     + 'PlotSystemAPI ' + settings.version +' by MineFact\n'
     + 'Listening on: http://localhost:' + settings.port + '\n'
     + '-----------------------------------------------------------------------\n'
+    + '\n'
 ));
