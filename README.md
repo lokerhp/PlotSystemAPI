@@ -4,7 +4,7 @@
 - Install [Node.js](https://nodejs.org/en/) version 18.12.1 or higher
 
 ## Download the code
-- Clone the repository by clicking the green "Code" button on this page or entering this command:
+- Clone the repository by clicking the green "Code" button on this page or by entering this command:
 ```
 git clone <git lab template url> PlotSystemAPI
 ```
