@@ -1,6 +1,6 @@
 const mariadb = require('mariadb');
 
-
+// Create a pool with the environment variables
 const pool = mariadb.createPool({
     host: process.env.DATABASE_HOST, 
     user: process.env.DATABASE_USER, 
@@ -9,6 +9,8 @@ const pool = mariadb.createPool({
     database: process.env.DATABASE_SCHEMA
 });
 
+
+// query() function
 const query = async (sql, params) => {
 
     return new Promise((resolve, reject) => {
@@ -41,6 +43,9 @@ const query = async (sql, params) => {
         
     });
 };
+
+
+
 
 module.exports = {
   query

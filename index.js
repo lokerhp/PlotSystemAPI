@@ -6,7 +6,6 @@ const app = express()
 const settings = require('./settings.js')
 const database = require('./src/database.js')
 
-console.log(process.env.USER_ID);
  
 app.get('/', function (req, res) {
 
@@ -19,8 +18,6 @@ app.get('/', function (req, res) {
   .catch(err => {
     console.log(err);
   });
-
-
 })
 
 // Start the server
@@ -33,7 +30,7 @@ app.listen(settings.port, () => console.log(
     + '                          |___/                                        \n'
     + '\n'
     + '-----------------------------------------------------------------------\n'
-    + 'TerraBungeeAPI 1.0.0 by MineFact\n'
-    + 'Listening on: localhost:' + settings.port + '\n'
+    + 'PlotSystemAPI ' + settings.version +' by MineFact\n'
+    + 'Listening on: http://localhost:' + settings.port + '\n'
     + '-----------------------------------------------------------------------\n'
 ));
