@@ -19,7 +19,7 @@ const query = async (sql, params) => {
             // Execute the query
             conn.query(sql, params)
             .then(rows => {
-                if(process.env.DEBUG)
+                if(process.env.DEBUG == 'true')
                     console.log("SQL result: " + JSON.stringify(rows[0])); // { "1": 1 }
 
                 resolve(rows);
