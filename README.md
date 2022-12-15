@@ -23,7 +23,7 @@ npm install
 
 - Start the server
 ```
-npm start
+node index.js
 ```
 
 Thats it! Now navigate to `http://localhost:8080` in your Browser.
