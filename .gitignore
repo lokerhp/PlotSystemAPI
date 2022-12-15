@@ -1,0 +1,18 @@
+# Ignore the node modules folder to have a cleaner repository
+/node_modules
+
+# Don't commit any credentials to the repo
+*.env
+
+# Other
+*.log
+dump.rdb
+*~
+cov-*
+coverage
+plato
+.idea
+.DS_Store
+*.sw*
+launch.json
+dist
