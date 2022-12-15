@@ -8,11 +8,6 @@
 ```
 git clone <git lab template url> PlotSystemAPI
 ```
-- Install dependencies
-```
-cd PlotSystemAPI
-npm install
-```
 
 ## Add the Environment Variables
 You need to configure all environment variables before being able to launch the program. There is an example [.env](https://github.com/MineFact/PlotSystemAPI/blob/master/.env.example) file in this repository.
@@ -20,7 +15,15 @@ You need to configure all environment variables before being able to launch the 
 
 
 ## Build and run the project
+- Install the dependencies
+```
+cd PlotSystemAPI
+npm install
+```
+
+- Start the server
 ```
 npm start
 ```
-  Navigate to `http://localhost:8080` in your Browser
+
+Thats it! Now navigate to `http://localhost:8080` in your Browser.
