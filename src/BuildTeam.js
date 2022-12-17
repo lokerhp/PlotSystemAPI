@@ -1,12 +1,12 @@
 class BuildTeam {
 
     constructor() {
-        let cities;
-        let countries;
-        let ftp_configuration;
-        let plots
-        let reviews
-        let servers
+        this.cities;
+        this.countries;
+        this.ftp_configuration;
+        this.plots
+        this.reviews
+        this.servers
     }
 
     getCities(){

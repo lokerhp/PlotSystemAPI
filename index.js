@@ -1,3 +1,4 @@
+// General Imports
 require('dotenv').config();
 const express = require('express')
 const app = express()
@@ -5,19 +6,18 @@ const app = express()
 // Plot System Imports
 const settings = require('./src/Settings.js')
 const database = require('./src/Database.js')
+const PlotSystem = require('./src/PlotSystem.js')
 
- 
-app.get('/', function (req, res) {
+const plotSystem = new PlotSystem(database);
 
-  database.query("SELECT * FROM `plotsystem_builders`")
+
+
+
+app.get('/api/builders', function (req, res) {
+  plotSystem.getBuilders()
   .then(rows => {
-  
-    const ID = rows;
-    res.send(JSON.stringify(ID))
+    res.send(JSON.stringify(rows))
   })
-  .catch(err => {
-    console.log(err);
-  });
 })
 
 // Start the server
