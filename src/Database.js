@@ -28,6 +28,7 @@ const query = async (sql, params) => {
         reject(err);
     })
     .finally(f => {
+        console.log("Query executed. (" + sql + ").") 
         // Release the connection back to the pool
         conn.release();
     })

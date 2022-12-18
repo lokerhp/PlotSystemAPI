@@ -12,13 +12,15 @@ const plotSystem = new PlotSystem(database);
 
 
 
+require('./src/routes/builders/GET.js').initRoutes(app, plotSystem);
+require('./src/routes/difficulties/GET.js').initRoutes(app, plotSystem);
 
-app.get('/api/builders', function (req, res) {
-  plotSystem.getBuilders()
-  .then(rows => {
-    res.send(JSON.stringify(rows))
-  })
-})
+
+
+// A timer that runs every 10 minutes
+setInterval(() => {
+    plotSystem.updateCache();
+}, 10*60*1000);
 
 // Start the server
 app.listen(settings.port, () => console.log(
