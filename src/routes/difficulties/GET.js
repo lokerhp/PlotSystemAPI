@@ -1,10 +1,7 @@
-const initRoutes = async (app, plotSystem) => {
+const initRoutes = async (app, joi, plotSystem) => {
 
     app.get('/api/difficulties', function (req, res) {
-        plotSystem.getDifficulties()
-        .then(rows => {
-            res.send(JSON.stringify(rows))
-        })
+        res.send(JSON.stringify(plotSystem.getDifficulties()))
     })
 
 }
