@@ -1,0 +1,258 @@
+{
+	"info": {
+		"_postman_id": "956a055f-1d23-4c9a-accd-ac3f73f1e2a6",
+		"name": "PlotSystemAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "builders",
+			"item": [
+				{
+					"name": "GET_builders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{ip}}:8080/api/builders",
+							"protocol": "http",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"builders"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "difficulties",
+			"item": [
+				{
+					"name": "GET_difficulties",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{ip}}:8080/api/difficulties",
+							"protocol": "http",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"difficulties"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "teams",
+			"item": [
+				{
+					"name": "cities",
+					"item": [
+						{
+							"name": "GET_cities",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{ip}}:8080/api/teams/{{api_key}}/cities",
+									"protocol": "http",
+									"host": [
+										"{{ip}}"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"teams",
+										"{{api_key}}",
+										"cities"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "countries",
+					"item": [
+						{
+							"name": "GET_countries",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{ip}}:8080/api/teams/{{api_key}}/countries",
+									"protocol": "http",
+									"host": [
+										"{{ip}}"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"teams",
+										"{{api_key}}",
+										"countries"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ftp_configuration",
+					"item": [
+						{
+							"name": "GET_ftp_configuration",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{ip}}:8080/api/teams/{{api_key}}/ftp_configuration",
+									"protocol": "http",
+									"host": [
+										"{{ip}}"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"teams",
+										"{{api_key}}",
+										"ftp_configuration"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "plots",
+					"item": [
+						{
+							"name": "GET_plots",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{ip}}:8080/api/teams/{{api_key}}/plots",
+									"protocol": "http",
+									"host": [
+										"{{ip}}"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"teams",
+										"{{api_key}}",
+										"plots"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "reviews",
+					"item": [
+						{
+							"name": "GET_reviews",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{ip}}:8080/api/teams/{{api_key}}/reviews",
+									"protocol": "http",
+									"host": [
+										"{{ip}}"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"teams",
+										"{{api_key}}",
+										"reviews"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "servers",
+					"item": [
+						{
+							"name": "GET_servers",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{ip}}:8080/api/teams/{{api_key}}/servers",
+									"protocol": "http",
+									"host": [
+										"{{ip}}"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"teams",
+										"{{api_key}}",
+										"servers"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "ip",
+			"value": "localhost",
+			"type": "default"
+		},
+		{
+			"key": "api_key",
+			"value": "fffb262b-0324-499a-94a6-eebf845e6124",
+			"type": "default"
+		}
+	]
+}
