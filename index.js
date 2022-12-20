@@ -2,18 +2,25 @@
 require('dotenv').config();
 const express = require('express')
 const app = express()
+const Joi = require('joi')
 
 // Plot System Imports
 const settings = require('./src/Settings.js')
 const database = require('./src/Database.js')
 const PlotSystem = require('./src/PlotSystem.js')
-
 const plotSystem = new PlotSystem(database);
 
 
 
-require('./src/routes/builders/GET.js').initRoutes(app, plotSystem);
-require('./src/routes/difficulties/GET.js').initRoutes(app, plotSystem);
+// Init routes
+require('./src/routes/builders/GET.js').initRoutes(app, Joi, plotSystem);
+require('./src/routes/difficulties/GET.js').initRoutes(app, Joi, plotSystem);
+require('./src/routes/teams/cities/GET.js').initRoutes(app, Joi, plotSystem);
+require('./src/routes/teams/countries/GET.js').initRoutes(app, Joi, plotSystem);
+require('./src/routes/teams/ftp_configuration/GET.js').initRoutes(app, Joi, plotSystem);
+require('./src/routes/teams/plots/GET.js').initRoutes(app, Joi, plotSystem);
+require('./src/routes/teams/reviews/GET.js').initRoutes(app, Joi, plotSystem);
+require('./src/routes/teams/servers/GET.js').initRoutes(app, Joi, plotSystem);
 
 
 
