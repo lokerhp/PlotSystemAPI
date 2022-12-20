@@ -9,6 +9,8 @@ const initRoutes = async (app, joi, plotSystem) => {
         
         const buildTeam = plotSystem.getBuildTeam(req.params.apikey);
         const map = buildTeam.getCountries();
+
+        res.setHeader('Content-Type', 'application/json');
         res.send(Object.fromEntries(map))
     })
 

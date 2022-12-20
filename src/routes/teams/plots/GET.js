@@ -10,6 +10,7 @@ const initRoutes = async (app, joi, plotSystem) => {
         const buildTeam = plotSystem.getBuildTeam(req.params.apikey);
 
         buildTeam.getPlots().then((plots) => {
+            res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify(plots))
         })
     })

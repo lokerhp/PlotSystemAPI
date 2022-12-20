@@ -9,6 +9,7 @@ const initRoutes = async (app, joi, plotSystem) => {
 
         const buildTeam = plotSystem.getBuildTeam(req.params.apikey);
         buildTeam.getReviews().then((reviews) => {
+            res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify(reviews))
         })
     })
