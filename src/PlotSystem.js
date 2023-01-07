@@ -98,7 +98,7 @@ module.exports = class PlotSystem {
         //Validate that the API key exists in the plot system database
         const api_keys = this.getAPIKeys();
         if (!api_keys.includes(req.params.apikey)) {
-            res.status(401).send('Invalid API key');
+            res.status(401).send({success: false, error: 'Invalid API key'});
             return false;
         }
 
