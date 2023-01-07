@@ -50,6 +50,11 @@ module.exports = class BuildTeam {
     }
 
 
+    /* ======================================= */
+    /*                  CITIES                 */
+    /* ======================================= */
+
+
     // Returns a list of cities. If no cities are found, an empty list is returned.
     getCities(){
         if(this.#cities == null || this.#cities.size == 0){
@@ -78,6 +83,12 @@ module.exports = class BuildTeam {
     }
 
 
+
+    /* ======================================= */
+    /*                  COUNTRIES              */
+    /* ======================================= */
+
+
     // Returns a map of countries with the country id as the key. If no countries are found, an empty map is returned.
     getCountries(){
         if(this.#countries == null || this.#countries.size == 0){
@@ -87,6 +98,13 @@ module.exports = class BuildTeam {
 
         return this.#countries;
     }
+
+
+
+    /* ======================================= */
+    /*                  SERVERS                */
+    /* ======================================= */
+
 
     // Returns a map of servers with the server id as the key. If no servers are found, an empty map is returned.
     getServers(){
@@ -98,6 +116,12 @@ module.exports = class BuildTeam {
         return this.#servers;
     }
 
+
+
+    /* ======================================= */
+    /*             FTP CONFIGURATION           */
+    /* ======================================= */
+
     // Returns a map of ftp configurations with the server id as the key. If no ftp configurations are found, an empty map is returned.
     getFTPConfiguration(){
         if(this.#ftp_configuration == null || this.#ftp_configuration.size == 0){
@@ -108,6 +132,11 @@ module.exports = class BuildTeam {
         return this.#ftp_configuration;        
     }
 
+
+
+    /* ======================================= */
+    /*                  PLOTS                  */
+    /* ======================================= */
 
     // Returns an uncached list of plots of this team. If no plots are found, an empty list is returned.
     async getPlots(){
@@ -130,6 +159,20 @@ module.exports = class BuildTeam {
 
         return await this.getCityPlotsFromDatabase(city_id);        
     }
+
+    // Creates a new plot for the given city id. If the city id is not found, false is returned.
+    async createPlot(city_project_id, difficulty_id, mc_coordinates, outline, create_player, version){
+        if(!this.getCities().some(city => city.id == city_project_id))
+            return false;
+
+        return await this.createPlotInDatabase(city_project_id, difficulty_id, mc_coordinates, outline, create_player, version);
+    }
+
+
+
+    /* ======================================= */
+    /*                  REVIEWS                */
+    /* ======================================= */
 
     // Returns an uncached list of reviews.
     async getReviews(){
@@ -155,6 +198,9 @@ module.exports = class BuildTeam {
 
     
 
+    /* ======================================= */
+    /*         DATABASE GET REQUESTS           */
+    /* ======================================= */
 
     async getBuildTeamIDFromDatabase(){
         const SQL = "SELECT a.id as btid FROM plotsystem_buildteams as a WHERE api_key_id = (SELECT b.id FROM plotsystem_api_keys as b WHERE api_key = ?)";
@@ -191,4 +237,21 @@ module.exports = class BuildTeam {
         const SQL = "SELECT a.* FROM plotsystem_reviews as a, plotsystem_plots as b WHERE a.id = b.review_id";
         return await this.#database.query(SQL, [city_id]);
     }
+
+
+
+    /* ======================================= */
+    /*         DATABASE POST REQUEST           */
+    /* ======================================= */
+
+    async createPlotInDatabase(city_project_id, difficulty_id, mc_coordinates, outline, create_player, version){
+        const SQL = "INSERT INTO plotsystem_plots (city_project_id, difficulty_id, mc_coordinates, outline, create_player, version) VALUES (?, ?, ?, ?, ?, ?)";
+
+        const result = await this.#database.query(SQL, [city_project_id, difficulty_id, mc_coordinates, outline, create_player, version]);
+
+        if(result.affectedRows == 1)
+            return true;
+        else 
+            return false;
+    }   
 }

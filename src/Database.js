@@ -16,8 +16,10 @@ const query = async (sql, params) => {
     // Get a connection from the pool
     let conn = await pool.getConnection()
     .catch(err => {
-        console.log("There was an error when creating the connection. Please retry.")
-        reject(err);
+        console.log("There was an error when creating the connection. Please retry. Error:")
+        console.log(err)
+        return [];
+        
     });
 
     // Execute the query
@@ -25,7 +27,9 @@ const query = async (sql, params) => {
     .catch(err => {
         console.log("There was an error when executing a SQL query. Error:")
         console.log(err)
-        reject(err);
+        
+        conn.release();
+        return [];
     })
     .finally(f => {
         console.log("Query executed. (" + sql + "). Params: " + params + "") 

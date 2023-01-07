@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express')
 const app = express()
 const Joi = require('joi')
+const bodyParser = require('body-parser')
 
 // Plot System Imports
 const settings = require('./src/Settings.js')
@@ -12,7 +13,7 @@ const plotSystem = new PlotSystem(database);
 
 
 
-// Init routes
+// Init GET Routes for the API
 require('./src/routes/builders/GET.js').initRoutes(app, Joi, plotSystem);
 require('./src/routes/difficulties/GET.js').initRoutes(app, Joi, plotSystem);
 require('./src/routes/teams/cities/GET.js').initRoutes(app, Joi, plotSystem);
@@ -21,6 +22,13 @@ require('./src/routes/teams/ftp_configuration/GET.js').initRoutes(app, Joi, plot
 require('./src/routes/teams/plots/GET.js').initRoutes(app, Joi, plotSystem);
 require('./src/routes/teams/reviews/GET.js').initRoutes(app, Joi, plotSystem);
 require('./src/routes/teams/servers/GET.js').initRoutes(app, Joi, plotSystem);
+
+
+// Use the body-parser middleware
+app.use(bodyParser.json())
+
+// Init POST Routes for the API
+require('./src/routes/teams/plots/POST.js').initRoutes(app, Joi, plotSystem);
 
 
 
