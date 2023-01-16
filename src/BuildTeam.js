@@ -22,8 +22,13 @@ module.exports = class BuildTeam {
 
     // Updates the cache for the build team
     async updateCache(){
-        console.log("Updating cache for build team: " + this.#api_key)
+        if(process.env.DEBUG == "true")
+            console.log("Updating cache for build team: " + this.#api_key)
+
         this.#builteamID = await this.getBuildTeamIDFromDatabase();
+
+        if(this.#builteamID == undefined || this.#builteamID == null)
+            return;
 
         this.#cities.clear();
         this.#countries.clear();
@@ -205,6 +210,10 @@ module.exports = class BuildTeam {
     async getBuildTeamIDFromDatabase(){
         const SQL = "SELECT a.id as btid FROM plotsystem_buildteams as a WHERE api_key_id = (SELECT b.id FROM plotsystem_api_keys as b WHERE api_key = ?)";
         const result = await this.#database.query(SQL, [this.#api_key]);
+
+        if(result.length == 0)
+            return null;
+
         return result[0].btid;
     }
     

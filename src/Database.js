@@ -32,7 +32,9 @@ const query = async (sql, params) => {
         return [];
     })
     .finally(f => {
-        console.log("Query executed. (" + sql + "). Params: " + params + "") 
+        if(process.env.DEBUG == "true")
+            console.log("Query executed. (" + sql + "). Params: " + params + "") 
+            
         // Release the connection back to the pool
         conn.release();
     })

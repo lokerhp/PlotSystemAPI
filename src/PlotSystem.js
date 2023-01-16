@@ -1,4 +1,5 @@
 const BuildTeam = require('./BuildTeam.js');
+const ProgressBar = require('progress');
 
 module.exports = class PlotSystem {
 
@@ -14,20 +15,38 @@ module.exports = class PlotSystem {
         this.#difficulties;
         this.#api_keys;
         this.#buildTeams = new Map();
-
-        this.updateCache();
     }
 
 
     async updateCache(){
+
+        this.#api_keys = await this.getAPIKeysFromDatabase();
+
+
+        // Get how many API keys there are as an integer
+        var len = this.#api_keys.length + 1;
+
+        // A process bar that shows the progress of the cache update
+        const bar = new ProgressBar('  Starting Plot System API [:bar] :percent :etas', {
+            complete: '=',
+            incomplete: ' ',
+            width: 20,
+            total: len
+        });
+        bar.render();
+
         this.#builders = await this.getBuildersFromDatabase();
         this.#difficulties = await this.getDifficultiesFromDatabase();
-        this.#api_keys = await this.getAPIKeysFromDatabase();
+
+        bar.tick();
 
         for(const apiKey of this.#api_keys.values()){
             const buildTeam = this.getBuildTeam(apiKey);
-            buildTeam.updateCache();
+            await buildTeam.updateCache();
+
+            bar.tick();
         }
+
     }
 
     getBuilders(){
