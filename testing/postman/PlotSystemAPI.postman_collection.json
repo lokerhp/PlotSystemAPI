@@ -171,12 +171,57 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "[\r\n    {\r\n        \"id\": 1,\r\n        \"city_project_id\": 1,\r\n        \"difficulty_id\": 1,\r\n        \"review_id\": 5,\r\n        \"owner_uuid\": \"3b350308-d857-4ecc-8b71-c93a2cf3c87b\",\r\n        \"member_uuids\": null,\r\n        \"status\": \"completed\",\r\n        \"mc_coordinates\": \"3190699.5,690.5,-4673990.0\",\r\n        \"outline\": \"3190689.0,-4673973.0|3190718.0,-4673987.0|3190712.0,-4674007.0|3190689.0,-4674001.0|3190681.0,-4673994.0\",\r\n        \"score\": 16,\r\n        \"last_activity\": \"2022-07-16T22:00:00.000Z\",\r\n        \"create_date\": \"2022-07-13T22:00:00.000Z\",\r\n        \"create_player\": \"3b350308-d857-4ecc-8b71-c93a2cf3c87b\",\r\n        \"pasted\": 1,\r\n        \"type\": 2,\r\n        \"version\": 3\r\n    }\r\n]",
+									"raw": "[\r\n    {\r\n        \"city_project_id\": 1,\r\n        \"difficulty_id\": 1,\r\n        \"mc_coordinates\": \"3190699.5,690.5,-4673990.0\",\r\n        \"outline\": \"4078352.0,-4550687.0|4078371.0,-4550675.0|4078370.0,-4550669.0|4078371.0,-4550668.0|4078371.0,-4550666.0|4078355.0,-4550635.0|4078348.0,-4550633.0|4078334.0,-4550642.0|4078328.0,-4550656.0|4078329.0,-4550655.0|4078351.0,-4550683.0\",\r\n        \"version\": 3\r\n    }\r\n]",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
+								},
+								"url": {
+									"raw": "http://{{ip}}:8080/api/teams/{{api_key}}/plots",
+									"protocol": "http",
+									"host": [
+										"{{ip}}"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"teams",
+										"{{api_key}}",
+										"plots"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT_update_plot",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"id\": 1,\r\n        \"status\": \"I love MineFact\"\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{ip}}:8080/api/teams/{{api_key}}/plots",
+									"protocol": "http",
+									"host": [
+										"{{ip}}"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"teams",
+										"{{api_key}}",
+										"plots"
+									]
 								}
 							},
 							"response": []
