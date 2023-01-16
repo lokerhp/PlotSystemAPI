@@ -18,33 +18,36 @@ module.exports = class PlotSystem {
     }
 
 
-    async updateCache(){
-
+    async updateCache(isStarting){
         this.#api_keys = await this.getAPIKeysFromDatabase();
 
+        let bar = null;
+        if(isStarting == true){
+            // Get how many API keys there are as an integer
+            var len = this.#api_keys.length + 1;
 
-        // Get how many API keys there are as an integer
-        var len = this.#api_keys.length + 1;
-
-        // A process bar that shows the progress of the cache update
-        const bar = new ProgressBar('  Starting Plot System API [:bar] :percent :etas', {
-            complete: '=',
-            incomplete: ' ',
-            width: 20,
-            total: len
-        });
-        bar.render();
+            // A process bar that shows the progress of the cache update
+            bar = new ProgressBar('  Starting Plot System API [:bar] :percent :etas', {
+                complete: '=',
+                incomplete: ' ',
+                width: 20,
+                total: len
+            });
+            bar.render();
+        }
 
         this.#builders = await this.getBuildersFromDatabase();
         this.#difficulties = await this.getDifficultiesFromDatabase();
 
-        bar.tick();
+        if(isStarting == true)
+            bar.tick();
 
         for(const apiKey of this.#api_keys.values()){
             const buildTeam = this.getBuildTeam(apiKey);
             await buildTeam.updateCache();
 
-            bar.tick();
+            if(isStarting == true)
+                bar.tick();
         }
 
     }

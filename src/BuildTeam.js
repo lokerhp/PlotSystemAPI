@@ -157,6 +157,32 @@ module.exports = class BuildTeam {
         return plots;
     }
 
+    // Checks if the given plot id is valid for this team. If the plot id is not found, false is returned.
+    async isValidPlot(plot_id){
+        if(this.#cities == null || this.#cities.size == 0)
+            return false;
+
+        for(const city of this.getCities()){
+            const cityPlots = await this.getPlotsByCity(city.id);
+            if(cityPlots.some(plot => plot.id == plot_id))
+                return true;
+        }
+
+        return false;
+    }
+
+    // Returns a plot for the given plot id. If the plot id is not found, null is returned.
+    async getPlot(plot_id){
+        if(this.#cities == null || this.#cities.size == 0)
+            return null;
+
+        for(const plot of await this.getPlots())
+        if(plot.id == plot_id)
+            return plot;
+
+        return null;
+    }
+
     // Returns an uncached list of plots for the given city id. If the city id is not found, an empty list is returned. 
     async getPlotsByCity(city_id){
         if(!this.#cities.has(city_id))
@@ -171,6 +197,14 @@ module.exports = class BuildTeam {
             return false;
 
         return await this.createPlotInDatabase(city_project_id, difficulty_id, mc_coordinates, outline, create_player, version);
+    }
+
+    // Updates the plot with the given plot id. If the plot id is not found, false is returned.
+    async updatePlot(plot_id, city_project_id, difficulty_id, review_id, owner_uuid, member_uuids, status, mc_coordinates, outline, score, last_activity, pasted, type, version){
+        if(!this.isValidPlot(plot_id))
+            return false;
+
+        return await this.updatePlotInDatabase(plot_id, city_project_id, difficulty_id, review_id, owner_uuid, member_uuids, status, mc_coordinates, outline, score, last_activity, pasted, type, version);
     }
 
 
@@ -263,4 +297,37 @@ module.exports = class BuildTeam {
         else 
             return false;
     }   
+
+
+    /* ======================================= */
+    /*         DATABASE PUT REQUEST            */
+    /* ======================================= */
+
+    // Updates the plot with the given plot id. If one of the parameters is null, the value in the database is not updated.
+    async updatePlotInDatabase(plot_id, city_project_id, difficulty_id, review_id, owner_uuid, member_uuids, status, mc_coordinates, outline, score, last_activity, pasted, type, version){
+        console.log("Updating plot with id " + plot_id);
+        console.log("city_project_id: " + city_project_id);
+        console.log("difficulty_id: " + difficulty_id);
+        console.log("review_id: " + review_id);
+        console.log("owner_uuid: " + owner_uuid);
+        console.log("member_uuids: " + member_uuids);
+        console.log("status: " + status);
+        console.log("mc_coordinates: " + mc_coordinates);
+        console.log("outline: " + outline);
+        console.log("score: " + score);
+        console.log("last_activity: " + last_activity);
+        console.log("pasted: " + pasted);
+        console.log("type: " + type);
+        console.log("version: " + version);
+
+
+        const SQL = "UPDATE plotsystem_plots SET city_project_id = ?, difficulty_id = ?, review_id = ?, owner_uuid = ?, member_uuids = ?, status = ?, mc_coordinates = ?, outline = ?, score = ?, last_activity = ?, pasted = ?, type = ?, version = ? WHERE id = ?";
+
+        const result = await this.#database.query(SQL, [city_project_id, difficulty_id, review_id, owner_uuid, member_uuids, status, mc_coordinates, outline, score, last_activity, pasted, type, version, plot_id]);
+
+        if(result.affectedRows == 1)
+            return true;
+        else 
+            return false;
+    }
 }

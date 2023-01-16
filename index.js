@@ -31,6 +31,10 @@ app.use(bodyParser.json())
 require('./src/routes/teams/plots/POST.js').initRoutes(app, Joi, plotSystem);
 
 
+// Init PUT Routes for the API
+require('./src/routes/teams/plots/PUT.js').initRoutes(app, Joi, plotSystem);
+
+
 
 // A timer that runs every 10 minutes
 setInterval(() => {
@@ -40,7 +44,7 @@ setInterval(() => {
 // Start the server
 app.listen(settings.port, () => 
     {
-        plotSystem.updateCache().then(() => {
+        plotSystem.updateCache(true).then(() => {
             notfityAppReady();
         });
     }
