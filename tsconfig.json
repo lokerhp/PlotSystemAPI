@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "module": "esnext",
+        "target": "esnext",
+        "outDir": "./dist",
+        "moduleResolution": "nodenext",
+        "strict": true,
+        "skipLibCheck": true,
+        "allowJs": true
+    },
+    "include": [
+        "src/**/**/*",
+    ],
+    "exclude": [
+        "dist/**/**/*"
+    ],
+    "ts-node": {
+        "files": true
+    }
+}

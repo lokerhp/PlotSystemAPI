@@ -1,4 +1,4 @@
-const initRoutes = async (app, joi, plotSystem) => {
+export  async function initRoutes(app, joi, plotSystem) {
 
     app.get('/api/difficulties', function (req, res) {
         res.setHeader('Content-Type', 'application/json');
@@ -6,5 +6,3 @@ const initRoutes = async (app, joi, plotSystem) => {
     })
 
 }
-
-module.exports = { initRoutes }

@@ -1,4 +1,4 @@
-const initRoutes = async (app, joi, plotSystem) => {
+export  async function initRoutes(app, joi, plotSystem) {
 
     // A put request to change plot settings of a build team
     app.put('/api/teams/:apikey/plots', function (req, res) {
@@ -86,5 +86,3 @@ const initRoutes = async (app, joi, plotSystem) => {
     })
 
 }
-
-module.exports = { initRoutes }

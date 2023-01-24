@@ -1,0 +1,15 @@
+{
+    appName: 'PlotSystemAPI',
+    version: '1.0.1',
+    port: 8080,
+    debug: false,
+
+    database: {
+        host: '127.0.01',
+        port: 3306,
+        username: 'root',
+        password: 'password',
+        db: 'MyDatabase',
+        max_conn: 5
+    }
+}

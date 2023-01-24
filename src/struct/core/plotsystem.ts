@@ -1,30 +1,29 @@
-const BuildTeam = require('./BuildTeam.js');
-const ProgressBar = require('progress');
+import ProgressBar from 'progress'
+import DatabaseHandler from "../database.js"
+import joi from 'joi'
+import express from 'express'
+import BuildTeam from './buildteam.js'
 
-module.exports = class PlotSystem {
+export default class PlotSystem {
 
-    #database;
-    #builders;
-    #difficulties;
-    #api_keys;
-    #buildTeams;
+    private database: DatabaseHandler
+    private builders: any[] | null = null
+    private difficulties: any[] | null = null
+    private api_keys: any[] | null = null
+    private buildTeams = new Map()
 
-    constructor(database) {
-        this.#database = database;
-        this.#builders;
-        this.#difficulties;
-        this.#api_keys;
-        this.#buildTeams = new Map();
+    constructor(database: DatabaseHandler) {
+        this.database = database
     }
 
 
-    async updateCache(isStarting){
-        this.#api_keys = await this.getAPIKeysFromDatabase();
+    async updateCache(isStarting: boolean = false){
+        this.api_keys = await this.getAPIKeysFromDatabase();
 
         let bar = null;
         if(isStarting == true){
             // Get how many API keys there are as an integer
-            var len = this.#api_keys.length + 1;
+            var len = (this?.api_keys?.length ?? 0) + 1;
 
             // A process bar that shows the progress of the cache update
             bar = new ProgressBar('  Starting Plot System API [:bar] :percent :etas', {
@@ -36,50 +35,50 @@ module.exports = class PlotSystem {
             bar.render();
         }
 
-        this.#builders = await this.getBuildersFromDatabase();
-        this.#difficulties = await this.getDifficultiesFromDatabase();
+        this.builders = await this.getBuildersFromDatabase();
+        this.difficulties = await this.getDifficultiesFromDatabase();
 
         if(isStarting == true)
-            bar.tick();
+            bar?.tick();
 
-        for(const apiKey of this.#api_keys.values()){
+        for(const apiKey of (this?.api_keys?.values() ?? [])){
             const buildTeam = this.getBuildTeam(apiKey);
             await buildTeam.updateCache();
 
             if(isStarting == true)
-                bar.tick();
+                bar?.tick();
         }
 
     }
 
     getBuilders(){
-        if(this.#builders == null){
+        if(this.builders == null){
             this.updateCache();
             return [];
         }
 
-        return this.#builders;
+        return this.builders;
     }
 
     getDifficulties(){
-        if(this.#difficulties == null){
+        if(this.difficulties == null){
             this.updateCache();
             return [];
         }
 
-        return this.#difficulties;
+        return this.difficulties;
     }
 
     getAPIKeys(){
-        if(this.#api_keys == null){
+        if(this.api_keys == null){
             this.updateCache();
             return [];
         }
 
-        return this.#api_keys;
+        return this.api_keys;
     }
 
-    getBuildTeam(api_key){
+    getBuildTeam(api_key: string){
         const api_keys = this.getAPIKeys();
         
         // Validate that the API key exists in the plot system database
@@ -87,12 +86,12 @@ module.exports = class PlotSystem {
             return null;
 
         // Check if the build team is already in the cache
-        if(this.#buildTeams.has(api_key))
-            return this.#buildTeams.get(api_key);
+        if(this.buildTeams.has(api_key))
+            return this.buildTeams.get(api_key);
 
         // Create a new build team and add it to the cache
-        const buildTeam = new BuildTeam(api_key, this.#database);
-        this.#buildTeams.set(api_key, buildTeam);
+        const buildTeam = new BuildTeam(api_key, this.database);
+        this.buildTeams.set(api_key, buildTeam);
 
         return buildTeam;
     }
@@ -103,7 +102,7 @@ module.exports = class PlotSystem {
 
 
     // Validate an API key that looks like this "fffb262b-0324-499a-94a6-eebf845e6123"
-    validateAPIKey(joi, req, res){
+    validateAPIKey(req: express.Request, res: express.Response){
 
         // Validate that the API key is a valid GUID
         const schema = joi.object().keys({
@@ -133,17 +132,17 @@ module.exports = class PlotSystem {
  
     async getBuildersFromDatabase(){
         const SQL = "SELECT * FROM plotsystem_builders";
-        return await this.#database.query(SQL);
+        return await this.database.query(SQL);
     }
 
     async getDifficultiesFromDatabase(){
         const SQL = "SELECT * FROM plotsystem_difficulties";
-        return await this.#database.query(SQL);
+        return await this.database.query(SQL);
     }
 
     async getAPIKeysFromDatabase(){
         const SQL = "SELECT * FROM plotsystem_api_keys";
-        const result = await this.#database.query(SQL);     // result: [{"id":1,"api_key":"super_cool_api_key","created_at":"2022-06-23T18:00:09.000Z"}]
-        return result.map(row => row.api_key);              // result: ["super_cool_api_key"]
+        const result = await this.database.query(SQL);     // result: [{"id":1,"api_key":"super_cool_api_key","created_at":"2022-06-23T18:00:09.000Z"}]
+        return result.map((row : {api_key: string}) => row.api_key);              // result: ["super_cool_api_key"]
     }
 } 

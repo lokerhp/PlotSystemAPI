@@ -3,6 +3,7 @@
 
 # Don't commit any credentials to the repo
 *.env
+config.json5
 
 # Other
 *.log

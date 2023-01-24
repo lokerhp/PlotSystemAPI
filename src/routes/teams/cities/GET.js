@@ -1,4 +1,4 @@
-const initRoutes = async (app, joi, plotSystem) => {
+export  async function initRoutes(app, joi, plotSystem) {
 
     app.get('/api/teams/:apikey/cities', function (req, res) {
 
@@ -14,5 +14,3 @@ const initRoutes = async (app, joi, plotSystem) => {
     })
 
 }
-
-module.exports = { initRoutes }
