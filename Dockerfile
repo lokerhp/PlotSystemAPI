@@ -4,7 +4,7 @@ WORKDIR /etc/buildtheearth/plotsystem-api
 
 COPY . ./
 
-RUN npm install
+RUN npm ci
 
 RUN npm run build
 
