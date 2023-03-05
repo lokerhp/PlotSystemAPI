@@ -1,0 +1,270 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Plot System API",
+    "description": "Use this API to integrate Plot-System Data into your own System. This API is still Work-In-Progress",
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "https://psapi.buildtheearth.net/",
+      "description": "Production Instance"
+    },
+    {
+      "url": "http://localhost:8080",
+      "description": "Development Instance"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Builders"
+    },
+    {
+      "name": "Difficulties"
+    },
+    {
+      "name": "Teams"
+    }
+  ],
+  "paths": {
+    "/api/builders": {
+      "get": {
+        "tags": [
+          "Builders"
+        ],
+        "summary": "Get all Builders",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/difficulties": {
+      "get": {
+        "tags": [
+          "Difficulties"
+        ],
+        "summary": "Get Difficulties",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/teams/{api_key}/cities": {
+      "get": {
+        "tags": [
+          "Teams"
+        ],
+        "summary": "Get Cities of Build Team",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/teams/{api_key}/countries": {
+      "get": {
+        "tags": [
+          "Teams"
+        ],
+        "summary": "Get Countries of Build Team",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/teams/{api_key}/ftp_configuration": {
+      "get": {
+        "tags": [
+          "Teams"
+        ],
+        "summary": "Get the FTP Cofiguration of the Build Team",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/teams/{api_key}/plots": {
+      "get": {
+        "tags": [
+          "Teams"
+        ],
+        "summary": "Get The Plots of a Build Team",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Teams"
+        ],
+        "summary": "Add a Plot to a Build Team",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": [
+                  {
+                    "city_project_id": 1,
+                    "difficulty_id": 1,
+                    "mc_coordinates": "3190699.5,690.5,-4673990.0",
+                    "outline": "4078352.0,-4550687.0|4078371.0,-4550675.0|4078370.0,-4550669.0|4078371.0,-4550668.0|4078371.0,-4550666.0|4078355.0,-4550635.0|4078348.0,-4550633.0|4078334.0,-4550642.0|4078328.0,-4550656.0|4078329.0,-4550655.0|4078351.0,-4550683.0",
+                    "version": 3
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Teams"
+        ],
+        "summary": "Update a Plot of a Build Team",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": [
+                  {
+                    "id": 1,
+                    "status": "I love MineFact"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/teams/{api_key}/reviews": {
+      "get": {
+        "tags": [
+          "Teams"
+        ],
+        "summary": "Get Reviews of a Build Team",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/teams/{api_key}/servers": {
+      "get": {
+        "tags": [
+          "Teams"
+        ],
+        "summary": "Get Servers of a Build Team",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  }
+}
