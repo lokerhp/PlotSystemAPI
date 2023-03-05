@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://psapi.buildtheearth.net/",
+      "url": "http://psapi.buildtheearth.net/",
       "description": "Production Instance"
     },
     {
