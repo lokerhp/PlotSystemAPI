@@ -1,29 +1,28 @@
-# Installation
+<!-- markdownlint-disable -->
+<div align="center">
 
-## Pre-requisites
-- Install [Node.js](https://nodejs.org/en/) version 18.12.1 or higher
+<img width="128" src="https://buildtheearth.net/assets/img/site-logo-animated.gif" />
 
-## Download the code
-- Clone the repository by clicking the green "Code" button on this page or by entering this command:
+# Network API
+
+_A REST-API to interface with data from the BuildTheEarth.net Minecraft Network._
+
+![official](https://go.buildtheearth.net/official-shield)
+[![chat](https://img.shields.io/discord/706317564904472627.svg?color=768AD4&label=discord&logo=https%3A%2F%2Fdiscordapp.com%2Fassets%2F8c9701b98ad4372b58f13fd9f65f966e.svg)](https://discord.gg/buildtheearth)
+
+</div>
+<!-- markdownlint-restore -->
+
+> Formerly known as PlotSystemAPI
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
 ```
-git clone <git lab template url> PlotSystemAPI
-```
 
-## Add the Environment Variables
-You need to configure all environment variables before being able to launch the program. There is an example [.env](https://github.com/MineFact/PlotSystemAPI/blob/master/.env.example) file in this repository.
-- Change the name from `.env.example` to `.env` and enter the correct values for your server.
-
-
-## Build and run the project
-- Install the dependencies
-```
-cd PlotSystemAPI
-npm install
-```
-
-- Start the server
-```
-npm start
-```
-
-Thats it! Now navigate to http://localhost:8080 in your Browser.
+Open [http://localhost:8080](http://localhost:8080) with your browser to see the result.
