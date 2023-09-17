@@ -118,7 +118,7 @@ export default class PlotSystem {
   // Get values from database
 
   async getBuildersFromDatabase() {
-    const SQL = "SELECT * FROM plotsystem_builders";
+    const SQL = "SELECT COUNT(uuid) FROM plotsystem_builders";
     return await this.database.query(SQL);
   }
 

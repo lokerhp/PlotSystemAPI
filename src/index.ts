@@ -35,11 +35,6 @@ const plotSystem = new PlotSystem(db);
   Joi,
   plotSystem
 );
-(await import("./routes/teams/ftp_configuration/GET.js")).initRoutes(
-  router,
-  Joi,
-  plotSystem
-);
 (await import("./routes/teams/plots/GET.js")).initRoutes(
   router,
   Joi,
