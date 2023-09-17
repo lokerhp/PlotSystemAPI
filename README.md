@@ -15,6 +15,22 @@ _A REST-API to interface with data from the BuildTheEarth.net Minecraft Network.
 
 > Formerly known as PlotSystemAPI
 
+## Routes
+
+These are the routes for the Network API.
+
+### Global Plot System
+
+- **Get Builder Count:** <br>
+Returns the number of builders of the global plot system.<br>
+(GET) https://psapi.buildtheearth.net/api/builders<br><br>
+
+- **Get Difficulties:** <br>
+Returns the available difficulties of the global plot system.<br>
+(GET) https://psapi.buildtheearth.net/api/difficulties<br><br>
+
+
+
 ## Getting Started
 
 First, run the development server:
