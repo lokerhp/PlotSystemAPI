@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Plot System API",
-    "description": "Use this API to integrate Plot-System Data into your own System. This API is still Work-In-Progress",
+    "title": "Network API",
+    "description": "Use this API to integrate Network Data into your own System. Note: This API is still Work-In-Progress",
     "version": "0.1.0"
   },
   "servers": [
@@ -27,12 +27,13 @@
     }
   ],
   "paths": {
-    "/api/builders": {
+    "/api/plotsystem/builders": {
       "get": {
         "tags": [
           "Builders"
         ],
-        "summary": "Get all Builders",
+        "summary": "Get Builder Count",
+        "description": "Returns the number of builders of the global plot system.",
         "responses": {
           "200": {
             "description": "Success"
