@@ -17,20 +17,17 @@
   ],
   "tags": [
     {
-      "name": "Builders"
+      "name": "Global Plot System"
     },
     {
-      "name": "Difficulties"
-    },
-    {
-      "name": "Teams"
+      "name": "Build Teams"
     }
   ],
   "paths": {
     "/api/plotsystem/builders": {
       "get": {
         "tags": [
-          "Builders"
+          "Global Plot System"
         ],
         "summary": "Get Builder Count",
         "description": "Returns the number of builders of the global plot system.",
@@ -41,12 +38,13 @@
         }
       }
     },
-    "/api/difficulties": {
+    "/api/plotsystem/difficulties": {
       "get": {
         "tags": [
-          "Difficulties"
+          "Global Plot System"
         ],
         "summary": "Get Difficulties",
+        "description": "Returns the available difficulties of the global plot system.",
         "responses": {
           "200": {
             "description": "Success"
@@ -54,12 +52,13 @@
         }
       }
     },
-    "/api/teams/{api_key}/cities": {
+    "/api/plotsystem/teams/%API_KEY%/cities": {
       "get": {
         "tags": [
-          "Teams"
+          "Global Plot System"
         ],
-        "summary": "Get Cities of Build Team",
+        "summary": "Get All Plot System Cities of a Team",
+        "description": "Returns the cities of a build team that are available in the global plot system.",
         "parameters": [
           {
             "name": "api_key",
@@ -77,12 +76,13 @@
         }
       }
     },
-    "/api/teams/{api_key}/countries": {
+    "/api/plotsystem/teams/%API_KEY%/countries": {
       "get": {
         "tags": [
-          "Teams"
+          "Global Plot System"
         ],
-        "summary": "Get Countries of Build Team",
+        "summary": "Get All Plot System Countries of a Team",
+        "description": "Returns the countries of a build team that are available in the global plot system.",
         "parameters": [
           {
             "name": "api_key",
@@ -100,35 +100,13 @@
         }
       }
     },
-    "/api/teams/{api_key}/ftp_configuration": {
+    "/api/plotsystem/teams/%API_KEY%/plots": {
       "get": {
         "tags": [
-          "Teams"
+          "Global Plot System"
         ],
-        "summary": "Get the FTP Cofiguration of the Build Team",
-        "parameters": [
-          {
-            "name": "api_key",
-            "in": "path",
-            "schema": {
-              "type": "string"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/teams/{api_key}/plots": {
-      "get": {
-        "tags": [
-          "Teams"
-        ],
-        "summary": "Get The Plots of a Build Team",
+        "summary": "Get All Plots of a Team",
+        "description": "Returns the plots of a build team that are available in the global plot system.",
         "parameters": [
           {
             "name": "api_key",
@@ -147,9 +125,10 @@
       },
       "post": {
         "tags": [
-          "Teams"
+          "Global Plot System"
         ],
-        "summary": "Add a Plot to a Build Team",
+        "summary": "Create a Plot for a Build Team",
+        "description": "Saved the plot details for a new plot of a build team in the global plot system.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -186,9 +165,10 @@
       },
       "put": {
         "tags": [
-          "Teams"
+          "Global Plot System"
         ],
-        "summary": "Update a Plot of a Build Team",
+        "summary": "Update  a Plot of a Build Team",
+        "description": "Changes the plot details of a plot of a build team in the global plot system.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -221,12 +201,13 @@
         }
       }
     },
-    "/api/teams/{api_key}/reviews": {
+    "/api/plotsystem/teams/%API_KEY%/reviews": {
       "get": {
         "tags": [
-          "Teams"
+          "Global Plot System"
         ],
-        "summary": "Get Reviews of a Build Team",
+        "summary": "Get all reviews of a Build Team",
+        "description": "Returns all reviews of a build team that are available in the global plot system.",
         "parameters": [
           {
             "name": "api_key",
@@ -244,12 +225,37 @@
         }
       }
     },
-    "/api/teams/{api_key}/servers": {
+    "/api/plotsystem/teams/%API_KEY%/servers": {
       "get": {
         "tags": [
-          "Teams"
+          "Global Plot System"
         ],
-        "summary": "Get Servers of a Build Team",
+        "summary": "Get all servers of a Build Team",
+        "description": "Returns all servers of a build team that are available in the global plot system.",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/teams/%API_KEY%": {
+      "get": {
+        "tags": [
+          "Build Teams"
+        ],
+        "summary": "Get Information about a Build Team",
+        "description": "Returns some information about a build team of BuildTheEarth.",
         "parameters": [
           {
             "name": "api_key",
