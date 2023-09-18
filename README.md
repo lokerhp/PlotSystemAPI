@@ -76,11 +76,11 @@ git clone <github clone url>
 cd network-api
 npm install
 ```
--Build the system
+- Build the system
 ```bash
 npm run build
 ```
--Start the server
+- Start the server
 ```bash
 npm start
 ```
