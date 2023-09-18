@@ -8,7 +8,7 @@ export  async function initRoutes(app, joi, plotSystem) {
         
 
         const buildTeam = plotSystem.getBuildTeam(req.params.apikey);
-        const map = buildTeam.getServers();
+        const map = buildTeam.getPSServers();
 
         res.setHeader('Content-Type', 'application/json');
         res.send(Object.fromEntries(map))
