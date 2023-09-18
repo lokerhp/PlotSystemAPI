@@ -1,13 +1,13 @@
-export  async function initRoutes(app, joi, plotSystem) {
+export  async function initRoutes(app, joi, network) {
 
     app.get('/api/plotsystem/teams/:apikey/plots', function (req, res) {
 
         // Validate that the API key is a valid GUID
-        if(!plotSystem.validateAPIKey(req, res))
+        if(!network.validateAPIKey(req, res))
             return;
         
 
-        const buildTeam = plotSystem.getBuildTeam(req.params.apikey);
+        const buildTeam = network.getBuildTeam(req.params.apikey);
 
         buildTeam.getPSPlots().then((plots) => {
             res.setHeader('Content-Type', 'application/json');

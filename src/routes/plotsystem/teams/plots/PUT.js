@@ -1,10 +1,10 @@
-export  async function initRoutes(app, joi, plotSystem) {
+export  async function initRoutes(app, joi, network) {
 
     // A put request to change plot settings of a build team
     app.put('/api/plotsystem/teams/:apikey/plots', function (req, res) {
 
         // Validate that the API key is a valid GUID
-        if(!plotSystem.validateAPIKey(req, res))
+        if(!network.validateAPIKey(req, res))
             return;
 
         const plotid = req.body[0].id;
@@ -14,7 +14,7 @@ export  async function initRoutes(app, joi, plotSystem) {
             return;
         }
 
-        const buildTeam = plotSystem.getBuildTeam(req.params.apikey);    
+        const buildTeam = network.getBuildTeam(req.params.apikey);    
 
         if(!buildTeam.isValidPlot(plotid)) {
             res.status(400).send({ error: 'Plot could not be found' });
