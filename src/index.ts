@@ -5,6 +5,7 @@ import Settings from "./struct/settings.js";
 import cors from "cors";
 import express from "express";
 import helmet from "helmet";
+import Network from "./struct/core/network.js";
 
 const app = express();
 const router = express.Router();
@@ -15,53 +16,53 @@ const config = new Settings();
 const plotsystem_database = new Database(config, config.plotsystem_database);
 const network_database = new Database(config, config.network_database);
 
-const plotSystem = new PlotSystem(plotsystem_database);
+const network = new Network(plotsystem_database, network_database);
 
 // Init GET Routes for the API
-(await import("./routes/plotsystem/builders/GET.js")).initRoutes(router, Joi, plotSystem);
+(await import("./routes/plotsystem/builders/GET.js")).initRoutes(router, Joi, network.getPlotSystem());
 (await import("./routes/plotsystem/difficulties/GET.js")).initRoutes(
   router,
   Joi,
-  plotSystem
+  network.getPlotSystem()
 );
 (await import("./routes/plotsystem/teams/cities/GET.js")).initRoutes(
   router,
   Joi,
-  plotSystem
+  network
 );
 (await import("./routes/plotsystem/teams/countries/GET.js")).initRoutes(
   router,
   Joi,
-  plotSystem
+  network
 );
 (await import("./routes/plotsystem/teams/plots/GET.js")).initRoutes(
   router,
   Joi,
-  plotSystem
+  network
 );
 (await import("./routes/plotsystem/teams/reviews/GET.js")).initRoutes(
   router,
   Joi,
-  plotSystem
+  network
 );
 (await import("./routes/plotsystem/teams/servers/GET.js")).initRoutes(
   router,
   Joi,
-  plotSystem
+  network
 );
 // Init POST Routes for the API
 
 (await import("./routes/plotsystem/teams/plots/POST.js")).initRoutes(
   router,
   Joi,
-  plotSystem
+  network
 );
 
 // Init PUT Routes for the API
 (await import("./routes/plotsystem/teams/plots/PUT.js")).initRoutes(
   router,
   Joi,
-  plotSystem
+  network
 );
 
 // Use the body-parser middleware
@@ -73,14 +74,14 @@ router.use(helmet());
 
 // A timer that runs every 10 minutes
 setInterval(() => {
-  plotSystem.updateCache();
+  network.updateCache();
 }, 10 * 60 * 1000);
 
 app.use("/", router);
 
 // Start the server
 app.listen(config.port, () => {
-  plotSystem.updateCache(true).then(() => {
+  network.updateCache(true).then(() => {
     notfityAppReady();
   });
 });

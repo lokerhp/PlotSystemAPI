@@ -1,4 +1,7 @@
-export async function initRoutes(app, joi, network) {
+import { Router } from "express";
+import Network from "../../../../struct/core/network.js";
+
+export async function initRoutes(app: Router, joi: any, network: Network) {
 
     app.post('/api/plotsystem/teams/:apikey/plots', function (req, res) {
 
@@ -7,6 +10,11 @@ export async function initRoutes(app, joi, network) {
             return;
         
         const buildTeam = network.getBuildTeam(req.params.apikey);    
+
+        if(buildTeam == null) {
+            res.status(400).send({ error: 'Build Team not found' });
+            return;
+        }
 
 
         // Loop through the plots in the request
@@ -37,20 +45,20 @@ export async function initRoutes(app, joi, network) {
             const mc_coordinates = req.body[i].mc_coordinates;
             const outline = req.body[i].outline;
             const version = req.body[i].version;
-            const create_player = "API";
+            let create_player = "API";
 
             if(req.body.create_player != null)
                 create_player = req.body.create_player;
 
 
             // Validate that the city exists
-            if(!buildTeam.getCities().some(city => city.id == city_project_id))
+            if(!buildTeam.getPSCities().some(city => city.id == city_project_id))
                 res.status(400).send({success: false, error: 'The city does not exist'});
                 
 
 
              // Create the plot in the database
-            const promise = buildTeam.createPlot(city_project_id, difficulty_id, mc_coordinates, outline, create_player, version);
+            const promise = buildTeam.createPSPlot(city_project_id, difficulty_id, mc_coordinates, outline, create_player, version);
 
 
             // Wait for the promise to resolve

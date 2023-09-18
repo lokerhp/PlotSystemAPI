@@ -1,4 +1,7 @@
-export  async function initRoutes(app, joi, network) {
+import { Router } from "express";
+import Network from "../../../../struct/core/network.js";
+
+export async function initRoutes(app: Router, joi: any, network: Network) {
 
     // A put request to change plot settings of a build team
     app.put('/api/plotsystem/teams/:apikey/plots', function (req, res) {
@@ -14,14 +17,19 @@ export  async function initRoutes(app, joi, network) {
             return;
         }
 
-        const buildTeam = network.getBuildTeam(req.params.apikey);    
+        const buildTeam = network.getBuildTeam(req.params.apikey);  
+        
+        if(buildTeam == null) {
+            res.status(400).send({ error: 'Build Team not found' });
+            return;
+        }
 
-        if(!buildTeam.isValidPlot(plotid)) {
+        if(!buildTeam.isValidPSPlot(plotid)) {
             res.status(400).send({ error: 'Plot could not be found' });
             return;
         }
 
-        buildTeam.getPlot(plotid).then((plot) => {
+        buildTeam.getPSPlot(plotid).then((plot) => {
 
             if(plot == null){
                 res.status(400).send({ error: 'Plot not found' });
@@ -74,7 +82,7 @@ export  async function initRoutes(app, joi, network) {
 
             
             // Update the plot
-            buildTeam.updatePlot(plotid, city_project_id, difficulty_id, review_id, owner_uuid, member_uuids, status, mc_coordinates, outline, score, last_activity, pasted, type, version).then((success) => {
+            buildTeam.updatePSPlot(plotid, city_project_id, difficulty_id, review_id, owner_uuid, member_uuids, status, mc_coordinates, outline, score, last_activity, pasted, type, version).then((success) => {
                 if(!success){
                     res.status(400).send({ error: 'An error occurred while updating the plot' });
                     return;

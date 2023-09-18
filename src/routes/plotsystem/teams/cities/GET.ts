@@ -1,5 +1,7 @@
-export  async function initRoutes(app, joi, network) {
+import { Router } from "express";
+import Network from "../../../../struct/core/network.js";
 
+export async function initRoutes(app: Router, joi: any, network: Network) {
     app.get('/api/plotsystem/teams/:apikey/cities', function (req, res) {
 
         // Validate that the API key is a valid GUID
@@ -7,6 +9,11 @@ export  async function initRoutes(app, joi, network) {
             return;
 
         const buildTeam = network.getBuildTeam(req.params.apikey);
+
+        if(buildTeam == null) {
+            res.status(400).send({ error: 'Build Team not found' });
+            return;
+        }
         
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify(buildTeam.getPSCities()))

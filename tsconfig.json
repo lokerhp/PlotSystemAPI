@@ -3,10 +3,10 @@
         "esModuleInterop": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "module": "esnext",
+        "module": "NodeNext",
         "target": "esnext",
         "outDir": "./dist",
-        "moduleResolution": "nodenext",
+        "moduleResolution": "NodeNext",
         "strict": true,
         "skipLibCheck": true,
         "allowJs": true
