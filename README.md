@@ -19,6 +19,9 @@ _A REST-API to interface with data from the BuildTheEarth.net Minecraft Network.
 
 These are the routes for the Network API.
 
+Plot System API Docs: 
+https://buildtheearth.github.io/network-api/
+
 ### Global Plot System
 
 - **Get Builder Count:** <br>
@@ -63,14 +66,25 @@ Changes the plot details of a plot of a build team in the global plot system.<br
 Returns some information about a build team of BuildTheEarth.<br>
 [GET] https://psapi.buildtheearth.net/api/teams/%API_KEY%<br><br>
 
-## Getting Started
+## Installation
 
-First, run the development server:
-
+- Install [Node.js](https://nodejs.org/en/) version 18.12.1 or higher
+- Clone the repository by clicking the green "Code" button on this page or by entering this command:
 ```bash
-npm run dev
-# or
-yarn dev
+git clone <github clone url>
 ```
-
+- Change the name from `_config.json5` to `config.json5` and enter the correct values for your server.
+- Install the dependencies
+```bash
+cd network-api
+npm install
+```
+- Build the system
+```bash
+npm run build
+```
+- Start the server
+```bash
+npm start
+```
 Open [http://localhost:8080](http://localhost:8080) with your browser to see the result.
