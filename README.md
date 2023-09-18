@@ -23,40 +23,45 @@ These are the routes for the Network API.
 
 - **Get Builder Count:** <br>
 Returns the number of builders of the global plot system.<br>
-[GET] https://psapi.buildtheearth.net/api/builders<br><br>
+[GET] https://psapi.buildtheearth.net/api/plotsystem/builders<br><br>
 
 - **Get Difficulties:** <br>
 Returns the available difficulties of the global plot system.<br>
-[GET] https://psapi.buildtheearth.net/api/difficulties<br><br>
+[GET] https://psapi.buildtheearth.net/api/plotsystem/difficulties<br><br>
 
-- **Get All Countries of a Team:** <br>
+- **Get All Plot System Countries of a Team:** <br>
 Returns the countries of a build team that are available in the global plot system.<br>
-[GET] https://psapi.buildtheearth.net/api/teams/%API_KEY%/countries<br><br>
+[GET] https://psapi.buildtheearth.net/api/plotsystem/teams/%API_KEY%/countries<br><br>
 
-- **Get All Cities of a Team:** <br>
+- **Get All Plot System Cities of a Team:** <br>
 Returns the cities of a build team that are available in the global plot system.<br>
-[GET] https://psapi.buildtheearth.net/api/teams/%API_KEY%/cities<br><br>
+[GET] https://psapi.buildtheearth.net/api/plotsystem/teams/%API_KEY%/cities<br><br>
 
 - **Get All Plots of a Team:** <br>
 Returns the plots of a build team that are available in the global plot system.<br>
-[GET] https://psapi.buildtheearth.net/api/teams/%API_KEY%/plots<br><br>
+[GET] https://psapi.buildtheearth.net/api/plotsystem/teams/%API_KEY%/plots<br><br>
 
 - **Get all reviews of a Team:** <br>
 Returns all reviews of a build team that are available in the global plot system.<br>
-[GET] https://psapi.buildtheearth.net/api/teams/%API_KEY%/reviews<br><br>
+[GET] https://psapi.buildtheearth.net/api/plotsystem/teams/%API_KEY%/reviews<br><br>
 
 - **Get all servers of a Team:** <br>
 Returns all servers of a build team that are available in the global plot system.<br>
-[GET] https://psapi.buildtheearth.net/api/teams/%API_KEY%/servers<br><br>
+[GET] https://psapi.buildtheearth.net/api/plotsystem/teams/%API_KEY%/servers<br><br>
 
 - **Create a Plot for a Team:** <br>
 Saved the plot details for a new plot of a build team in the global plot system.<br>
-[POST] https://psapi.buildtheearth.net/api/teams/%API_KEY%/plots<br><br>
+[POST] https://psapi.buildtheearth.net/api/plotsystem/teams/%API_KEY%/plots<br><br>
 
 - **Change a Plot of a Team:** <br>
 Changes the plot details of a plot of a build team in the global plot system.<br>
-[PUT] https://psapi.buildtheearth.net/api/teams/%API_KEY%/plots<br><br>
+[PUT] https://psapi.buildtheearth.net/api/plotsystem/teams/%API_KEY%/plots<br><br>
 
+### Build Teams
+
+- **Get Information about a Build Team:** <br>
+Returns some information about a build team of BuildTheEarth.<br>
+[GET] https://psapi.buildtheearth.net/api/teams/%API_KEY%<br><br>
 
 ## Getting Started
 
