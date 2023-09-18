@@ -76,8 +76,12 @@ git clone <github clone url>
 cd network-api
 npm install
 ```
-- Start the server
+-Build the system
+```bash
+npm run build
 ```
+-Start the server
+```bash
 npm start
 ```
 Open [http://localhost:8080](http://localhost:8080) with your browser to see the result.
