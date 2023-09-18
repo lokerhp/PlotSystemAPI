@@ -1,6 +1,6 @@
 export  async function initRoutes(app, joi, plotSystem) {
 
-    app.get('/api/teams/:apikey/countries', function (req, res) {
+    app.get('/api/plotsystem/teams/:apikey/countries', function (req, res) {
 
         // Validate that the API key is a valid GUID
         if(!plotSystem.validateAPIKey(req, res))

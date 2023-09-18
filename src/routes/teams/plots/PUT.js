@@ -1,7 +1,7 @@
 export  async function initRoutes(app, joi, plotSystem) {
 
     // A put request to change plot settings of a build team
-    app.put('/api/teams/:apikey/plots', function (req, res) {
+    app.put('/api/plotsystem/teams/:apikey/plots', function (req, res) {
 
         // Validate that the API key is a valid GUID
         if(!plotSystem.validateAPIKey(req, res))

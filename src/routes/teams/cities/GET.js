@@ -1,6 +1,6 @@
 export  async function initRoutes(app, joi, plotSystem) {
 
-    app.get('/api/teams/:apikey/cities', function (req, res) {
+    app.get('/api/plotsystem/teams/:apikey/cities', function (req, res) {
 
         
         console.log(req.params)
