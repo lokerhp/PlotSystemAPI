@@ -63,14 +63,21 @@ Changes the plot details of a plot of a build team in the global plot system.<br
 Returns some information about a build team of BuildTheEarth.<br>
 [GET] https://psapi.buildtheearth.net/api/teams/%API_KEY%<br><br>
 
-## Getting Started
+## Installation
 
-First, run the development server:
-
+- Install [Node.js](https://nodejs.org/en/) version 18.12.1 or higher
+- Clone the repository by clicking the green "Code" button on this page or by entering this command:
 ```bash
-npm run dev
-# or
-yarn dev
+git clone <github clone url>
 ```
-
+- Change the name from `_config.json5` to `config.json5` and enter the correct values for your server.
+- Install the dependencies
+```bash
+cd network-api
+npm install
+```
+- Start the server
+```
+npm start
+```
 Open [http://localhost:8080](http://localhost:8080) with your browser to see the result.
