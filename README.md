@@ -19,6 +19,9 @@ _A REST-API to interface with data from the BuildTheEarth.net Minecraft Network.
 
 These are the routes for the Network API.
 
+Plot System API Docs: 
+https://buildtheearth.github.io/network-api/
+
 ### Global Plot System
 
 - **Get Builder Count:** <br>
