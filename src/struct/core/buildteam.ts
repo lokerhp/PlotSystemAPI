@@ -56,7 +56,7 @@ export default class BuildTeam {
 
 
     /* ======================================= */
-    /*                  CITIES                 */
+    /*              PlotSystem                 */
     /* ======================================= */
 
 
@@ -87,13 +87,6 @@ export default class BuildTeam {
         return this.cities.get(country_id);
     }
 
-
-
-    /* ======================================= */
-    /*                  COUNTRIES              */
-    /* ======================================= */
-
-
     // Returns a map of countries with the country id as the key. If no countries are found, an empty map is returned.
     getCountries(){
         if(this.countries == null || this.countries.size == 0){
@@ -103,12 +96,6 @@ export default class BuildTeam {
 
         return this.countries;
     }
-
-
-
-    /* ======================================= */
-    /*                  SERVERS                */
-    /* ======================================= */
 
 
     // Returns a map of servers with the server id as the key. If no servers are found, an empty map is returned.
@@ -121,12 +108,6 @@ export default class BuildTeam {
         return this.servers;
     }
 
-
-
-    /* ======================================= */
-    /*             FTP CONFIGURATION           */
-    /* ======================================= */
-
     // Returns a map of ftp configurations with the server id as the key. If no ftp configurations are found, an empty map is returned.
     getFTPConfiguration(){
         if(this.ftp_configuration == null || this.ftp_configuration.size == 0){
@@ -136,12 +117,6 @@ export default class BuildTeam {
 
         return this.ftp_configuration;        
     }
-
-
-
-    /* ======================================= */
-    /*                  PLOTS                  */
-    /* ======================================= */
 
     // Returns an uncached list of plots of this team. If no plots are found, an empty list is returned.
     async getPlots(){
@@ -206,12 +181,6 @@ export default class BuildTeam {
 
         return await this.updatePlotInDatabase(plot_id, city_project_id, difficulty_id, review_id, owner_uuid, member_uuids, status, mc_coordinates, outline, score, last_activity, pasted, type, version);
     }
-
-
-
-    /* ======================================= */
-    /*                  REVIEWS                */
-    /* ======================================= */
 
     // Returns an uncached list of reviews.
     async getReviews(){
