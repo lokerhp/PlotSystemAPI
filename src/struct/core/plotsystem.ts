@@ -5,14 +5,14 @@ import express from "express";
 import joi from "joi";
 
 export default class PlotSystem {
-  private database: DatabaseHandler;
+  private plotsystem_database: DatabaseHandler;
   private builders: any[] | null = null;
   private difficulties: any[] | null = null;
   private api_keys: any[] | null = null;
   private buildTeams = new Map();
 
-  constructor(database: DatabaseHandler) {
-    this.database = database;
+  constructor(plotsystem_database: DatabaseHandler) {
+    this.plotsystem_database = plotsystem_database;
   }
 
   async updateCache(isStarting: boolean = false) {
@@ -83,7 +83,7 @@ export default class PlotSystem {
     if (this.buildTeams.has(api_key)) return this.buildTeams.get(api_key);
 
     // Create a new build team and add it to the cache
-    const buildTeam = new BuildTeam(api_key, this.database);
+    const buildTeam = new BuildTeam(api_key, this.plotsystem_database);
     this.buildTeams.set(api_key, buildTeam);
 
     return buildTeam;
@@ -119,17 +119,17 @@ export default class PlotSystem {
 
   async getBuildersFromDatabase() {
     const SQL = "SELECT COUNT(uuid) FROM plotsystem_builders";
-    return await this.database.query(SQL);
+    return await this.plotsystem_database.query(SQL);
   }
 
   async getDifficultiesFromDatabase() {
     const SQL = "SELECT * FROM plotsystem_difficulties";
-    return await this.database.query(SQL);
+    return await this.plotsystem_database.query(SQL);
   }
 
   async getAPIKeysFromDatabase() {
     const SQL = "SELECT * FROM plotsystem_api_keys";
-    const result = await this.database.query(SQL); // result: [{"id":1,"api_key":"super_cool_api_key","created_at":"2022-06-23T18:00:09.000Z"}]
+    const result = await this.plotsystem_database.query(SQL); // result: [{"id":1,"api_key":"super_cool_api_key","created_at":"2022-06-23T18:00:09.000Z"}]
     return result.map((row: { api_key: string }) => row.api_key); // result: ["super_cool_api_key"]
   }
 }

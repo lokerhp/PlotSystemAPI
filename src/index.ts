@@ -1,9 +1,7 @@
 import Database from "./struct/database.js";
 import Joi from "joi";
-import { NestFactory } from "@nestjs/core";
 import PlotSystem from "./struct/core/plotsystem.js";
 import Settings from "./struct/settings.js";
-import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
 import helmet from "helmet";
@@ -14,52 +12,53 @@ const router = express.Router();
 // Plot System Imports
 
 const config = new Settings();
-const db = new Database(config);
+const plotsystem_database = new Database(config, config.plotsystem_database);
+const network_database = new Database(config, config.network_database);
 
-const plotSystem = new PlotSystem(db);
+const plotSystem = new PlotSystem(plotsystem_database);
 
 // Init GET Routes for the API
-(await import("./routes/builders/GET.js")).initRoutes(router, Joi, plotSystem);
-(await import("./routes/difficulties/GET.js")).initRoutes(
+(await import("./routes/plotsystem/builders/GET.js")).initRoutes(router, Joi, plotSystem);
+(await import("./routes/plotsystem/difficulties/GET.js")).initRoutes(
   router,
   Joi,
   plotSystem
 );
-(await import("./routes/teams/cities/GET.js")).initRoutes(
+(await import("./routes/plotsystem/teams/cities/GET.js")).initRoutes(
   router,
   Joi,
   plotSystem
 );
-(await import("./routes/teams/countries/GET.js")).initRoutes(
+(await import("./routes/plotsystem/teams/countries/GET.js")).initRoutes(
   router,
   Joi,
   plotSystem
 );
-(await import("./routes/teams/plots/GET.js")).initRoutes(
+(await import("./routes/plotsystem/teams/plots/GET.js")).initRoutes(
   router,
   Joi,
   plotSystem
 );
-(await import("./routes/teams/reviews/GET.js")).initRoutes(
+(await import("./routes/plotsystem/teams/reviews/GET.js")).initRoutes(
   router,
   Joi,
   plotSystem
 );
-(await import("./routes/teams/servers/GET.js")).initRoutes(
+(await import("./routes/plotsystem/teams/servers/GET.js")).initRoutes(
   router,
   Joi,
   plotSystem
 );
 // Init POST Routes for the API
 
-(await import("./routes/teams/plots/POST.js")).initRoutes(
+(await import("./routes/plotsystem/teams/plots/POST.js")).initRoutes(
   router,
   Joi,
   plotSystem
 );
 
 // Init PUT Routes for the API
-(await import("./routes/teams/plots/PUT.js")).initRoutes(
+(await import("./routes/plotsystem/teams/plots/PUT.js")).initRoutes(
   router,
   Joi,
   plotSystem

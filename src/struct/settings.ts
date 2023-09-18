@@ -13,7 +13,8 @@ export default class Settings {
   public port!: number;
   public debug!: boolean;
 
-  public database!: Database;
+  public plotsystem_database!: Database;
+  public network_database!: Database;
 
   constructor(file?: string) {
     if (!file) file = path.join(__dirname, "../../config.json5");
