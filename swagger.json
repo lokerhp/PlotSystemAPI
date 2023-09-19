@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://psapi.buildtheearth.net/",
+      "url": "http://nwapi.buildtheearth.net/",
       "description": "Production Instance"
     },
     {
@@ -58,7 +58,7 @@
           "Global Plot System"
         ],
         "summary": "Get All Plot System Cities of a Team",
-        "description": "Returns the cities of a build team that are available in the global plot system.",
+        "description": "Returns the cities of a Build Team that are available in the global plot system.",
         "parameters": [
           {
             "name": "api_key",
@@ -82,7 +82,7 @@
           "Global Plot System"
         ],
         "summary": "Get All Plot System Countries of a Team",
-        "description": "Returns the countries of a build team that are available in the global plot system.",
+        "description": "Returns the countries of a Build Team that are available in the global plot system.",
         "parameters": [
           {
             "name": "api_key",
@@ -106,7 +106,7 @@
           "Global Plot System"
         ],
         "summary": "Get All Plots of a Team",
-        "description": "Returns the plots of a build team that are available in the global plot system.",
+        "description": "Returns the plots of a Build Team that are available in the global plot system.",
         "parameters": [
           {
             "name": "api_key",
@@ -128,7 +128,7 @@
           "Global Plot System"
         ],
         "summary": "Create a Plot for a Build Team",
-        "description": "Saved the plot details for a new plot of a build team in the global plot system.",
+        "description": "Saved the plot details for a new plot of a Build Team in the global plot system.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -168,7 +168,7 @@
           "Global Plot System"
         ],
         "summary": "Update  a Plot of a Build Team",
-        "description": "Changes the plot details of a plot of a build team in the global plot system.",
+        "description": "Changes the plot details of a plot of a Build Team in the global plot system.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -207,7 +207,7 @@
           "Global Plot System"
         ],
         "summary": "Get all reviews of a Build Team",
-        "description": "Returns all reviews of a build team that are available in the global plot system.",
+        "description": "Returns all reviews of a Build Team that are available in the global plot system.",
         "parameters": [
           {
             "name": "api_key",
@@ -231,7 +231,7 @@
           "Global Plot System"
         ],
         "summary": "Get all servers of a Build Team",
-        "description": "Returns all servers of a build team that are available in the global plot system.",
+        "description": "Returns all servers of a Build Team that are available in the global plot system.",
         "parameters": [
           {
             "name": "api_key",
@@ -254,8 +254,176 @@
         "tags": [
           "Build Teams"
         ],
-        "summary": "Get Information about a Build Team",
-        "description": "Returns some information about a build team of BuildTheEarth.",
+        "summary": "Get all Information about a Build Team",
+        "description": "Returns all general information about a Build Team of BuildTheEarth.",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/teams/%API_KEY%/blank_name": {
+      "get": {
+        "tags": [
+          "Build Teams"
+        ],
+        "summary": "Get Build Team Blank Name",
+        "description": "Returns the blank name of a Build Team of BuildTheEarth without any color codes.",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/teams/%API_KEY%/continent": {
+      "get": {
+        "tags": [
+          "Build Teams"
+        ],
+        "summary": "Get Build Team Continent",
+        "description": "Returns the continent of a Build Team of BuildTheEarth.",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/teams/%API_KEY%/description": {
+      "get": {
+        "tags": [
+          "Build Teams"
+        ],
+        "summary": "Get Build Team Display Description",
+        "description": "Returns the description of a Build Team of BuildTheEarth.",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/teams/%API_KEY%/headid": {
+      "get": {
+        "tags": [
+          "Build Teams"
+        ],
+        "summary": "Get Build Team Head ID",
+        "description": "Returns the Custom Minecraft Head ID of a Build Team of BuildTheEarth used by https://minecraft-heads.com/custom-heads.",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/teams/%API_KEY%/name": {
+      "get": {
+        "tags": [
+          "Build Teams"
+        ],
+        "summary": "Get Build Team Display Name",
+        "description": "Returns the display name of a Build Team of BuildTheEarth.",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/teams/%API_KEY%/owners": {
+      "get": {
+        "tags": [
+          "Build Teams"
+        ],
+        "summary": "Get Build Team Owners",
+        "description": "Returns the Minecraft UUIDs of a Build Team Owners of BuildTheEarth.",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/teams/%API_KEY%/tag": {
+      "get": {
+        "tags": [
+          "Build Teams"
+        ],
+        "summary": "Get Build Team Tag",
+        "description": "Returns the tag a build team of BuildTheEarth.",
         "parameters": [
           {
             "name": "api_key",
