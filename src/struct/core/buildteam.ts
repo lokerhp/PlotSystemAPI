@@ -1,20 +1,29 @@
 import DatabaseHandler from "../database.js";
-
+import Network from "./network.js";
 
 
 export default class BuildTeam {
 
+    private static readonly CITY_UPDATE_INTERVAL: number = 60 * 24; // 24 hours
+    private static readonly COUNTRY_UPDATE_INTERVAL: number = 60 * 24; // 24 hours
+    private static readonly SERVER_UPDATE_INTERVAL: number = 60 * 24; // 24 hours
+    private static readonly FTP_CONFIGURATION_UPDATE_INTERVAL: number = 60 * 24; // 24 hours
+
+
     private api_key: string;
+    private network: Network;
     private ps_database: DatabaseHandler
     private buildteamID: string | null;
-    private cities: Map<number, any[]> = new Map() // 
-    private countries: Map<number, any[]> = new Map() // Map<country_id, country>
-    private servers: Map<number, any[]> = new Map() // Map<server_id, server>
-    private ftp_configuration: Map<number, any[]> = new Map(); // Map<server_id, ftp_configuration>
 
-    constructor(api_key: string, ps_database: DatabaseHandler) {
+    private ps_cities: Map<number, any[]> = new Map() // Map<country_id, city>
+    private ps_countries: Map<number, any[]> = new Map() // Map<country_id, country>
+    private ps_servers: Map<number, any[]> = new Map() // Map<server_id, server>
+    private ps_ftp_configuration: Map<number, any[]> = new Map(); // Map<server_id, ftp_configuration>
+
+    constructor(api_key: string, network: Network) {
         this.api_key = api_key;
-        this.ps_database = ps_database;
+        this.network = network;
+        this.ps_database = network.getPlotSystemDatabase();
 
         this.buildteamID = null;
     }
@@ -24,19 +33,34 @@ export default class BuildTeam {
     async updateCache(){
         if(this.ps_database.settings.debug)
             console.log("Updating cache for build team: " + this.api_key)
+        
+
+        if(this.ps_cities != null && this.network.getUpdateCacheTicks() % BuildTeam.CITY_UPDATE_INTERVAL == 0)
+            this.ps_cities.clear();
+
+        if(this.ps_countries != null && this.network.getUpdateCacheTicks() % BuildTeam.COUNTRY_UPDATE_INTERVAL == 0)
+            this.ps_countries.clear();
+            
+        if(this.ps_servers != null && this.network.getUpdateCacheTicks() % BuildTeam.SERVER_UPDATE_INTERVAL == 0)
+            this.ps_servers.clear();
+
+        if(this.ps_ftp_configuration != null && this.network.getUpdateCacheTicks() % BuildTeam.FTP_CONFIGURATION_UPDATE_INTERVAL == 0)
+            this.ps_ftp_configuration.clear();
+    }
+
+    async loadBuildTeamData(){
+        if(this.ps_database.settings.debug)
+            console.log("Loading data for build team: " + this.api_key)
 
         this.buildteamID = await this.getPSBuildTeamIDFromDatabase();
 
         if(this.buildteamID == undefined || this.buildteamID == null)
             return;
 
-        this.cities.clear();
-        this.countries.clear();
-        this.servers.clear();
-        this.ftp_configuration.clear();
-
         // Update all countries, cities, servers and ftp configurations
         const countries = await this.getPSCountriesFromDatabase();
+
+        // Loop through all countries
         for(const country of countries){
             const cities = await this.getPSCitiesFromDatabase(country.id);
             const servers = await this.getPSServersFromDatabase(country.id);
@@ -45,14 +69,15 @@ export default class BuildTeam {
             for(const server of servers){
                 const ftp_configuration = await this.getPSFTPConfigurationFromDatabase(server.id);
 
-                this.servers.set(server.id, server);
-                this.ftp_configuration.set(server.id, ftp_configuration);
+                this.ps_servers.set(server.id, server);
+                this.ps_ftp_configuration.set(server.id, ftp_configuration);
             }
 
-            this.cities.set(country.id, cities);
-            this.countries.set(country.id, country);
+            this.ps_cities.set(country.id, cities);
+            this.ps_countries.set(country.id, country);
         }
     }
+
 
 
     /* ======================================= */
@@ -61,70 +86,60 @@ export default class BuildTeam {
 
 
     // Returns a list of cities. If no cities are found, an empty list is returned.
-    getPSCities(){
-        if(this.cities == null || this.cities.size == 0){
-            this.updateCache();
-            return []
-        }
+    async getPSCities(){
+        if(this.ps_cities == null || this.ps_cities.size == 0)
+            await this.loadBuildTeamData();
 
         const cities = [];
-        for(const city of this.cities.values())
+        for(const city of this.ps_cities.values())
             cities.push(...city);
 
         return cities;
     }
 
     // Returns a list of cities for the given country id. If the country id is not found, an empty list is returned.
-    getPSCitiesByCountry(country_id: number){
-        if(this.cities == null || this.cities.size == 0){
-            this.updateCache();
-            return []
-        }
+    async getPSCitiesByCountry(country_id: number){
+        if(this.ps_cities == null || this.ps_cities.size == 0)
+            await this.loadBuildTeamData();
 
-        if(!this.cities.has(country_id))
+        if(!this.ps_cities.has(country_id))
             return [];
 
-        return this.cities.get(country_id);
+        return this.ps_cities.get(country_id);
     }
 
     // Returns a map of countries with the country id as the key. If no countries are found, an empty map is returned.
-    getPSCountries(){
-        if(this.countries == null || this.countries.size == 0){
-            this.updateCache();
-            return new Map();
-        }
+    async getPSCountries(){
+        if(this.ps_countries == null || this.ps_countries.size == 0)
+            await this.loadBuildTeamData();
 
-        return this.countries;
+        return this.ps_countries;
     }
 
 
     // Returns a map of servers with the server id as the key. If no servers are found, an empty map is returned.
-    getPSServers(){
-        if(this.servers == null || this.servers.size == 0){
-            this.updateCache();
-            return new Map();
-        }
-
-        return this.servers;
+    async getPSServers(){
+        if(this.ps_servers == null || this.ps_servers.size == 0)
+            await this.loadBuildTeamData();
+            
+        return this.ps_servers;
     }
 
     // Returns a map of ftp configurations with the server id as the key. If no ftp configurations are found, an empty map is returned.
-    getPSFTPConfiguration(){
-        if(this.ftp_configuration == null || this.ftp_configuration.size == 0){
-            this.updateCache();
-            return new Map();
-        }
+    async getPSFTPConfiguration(){
+        if(this.ps_ftp_configuration == null || this.ps_ftp_configuration.size == 0)
+            await this.loadBuildTeamData();
 
-        return this.ftp_configuration;        
+        return this.ps_ftp_configuration;        
     }
 
     // Returns an uncached list of plots of this team. If no plots are found, an empty list is returned.
     async getPSPlots(){
-        if(this.cities == null || this.cities.size == 0)
-            return [];
+        if(this.ps_cities == null || this.ps_cities.size == 0)
+            await this.loadBuildTeamData();
 
         const plots = [];
-        for(const city of this.getPSCities()){
+        for(const city of await this.getPSCities()){
             const cityPlots = await this.getPSPlotsByCity(city.id);
             plots.push(...cityPlots);
         }
@@ -134,10 +149,10 @@ export default class BuildTeam {
 
     // Checks if the given plot id is valid for this team. If the plot id is not found, false is returned.
     async isValidPSPlot(plot_id: number){
-        if(this.cities == null || this.cities.size == 0)
-            return false;
+        if(this.ps_cities == null || this.ps_cities.size == 0)
+            await this.loadBuildTeamData();
 
-        for(const city of this.getPSCities()){
+        for(const city of await this.getPSCities()){
             const cityPlots = await this.getPSPlotsByCity(city.id);
             if(cityPlots.some((plot: {id: number}) => plot.id == plot_id))
                 return true;
@@ -148,8 +163,8 @@ export default class BuildTeam {
 
     // Returns a plot for the given plot id. If the plot id is not found, null is returned.
     async getPSPlot(plot_id: number){
-        if(this.cities == null || this.cities.size == 0)
-            return null;
+        if(this.ps_cities == null || this.ps_cities.size == 0)
+            await this.loadBuildTeamData();
 
         for(const plot of await this.getPSPlots())
         if(plot.id == plot_id)
@@ -160,7 +175,7 @@ export default class BuildTeam {
 
     // Returns an uncached list of plots for the given city id. If the city id is not found, an empty list is returned. 
     async getPSPlotsByCity(city_id: number){
-        if(!this.cities.has(city_id))
+        if(!this.ps_cities.has(city_id))
             return [];
 
         return await this.getPSCityPlotsFromDatabase(city_id);        
@@ -168,7 +183,9 @@ export default class BuildTeam {
 
     // Creates a new plot for the given city id. If the city id is not found, false is returned.
     async createPSPlot(city_project_id: number, difficulty_id: number, mc_coordinates: [number, number, number], outline: any, create_player: string, version: string){
-        if(!this.getPSCities().some(city => city.id == city_project_id))
+        const cities = await this.getPSCities();
+        
+        if(!cities.some(city => city.id == city_project_id))
             return false;
 
         return await this.createPSPlotInDatabase(city_project_id, difficulty_id, mc_coordinates, outline, create_player, version);
@@ -184,11 +201,11 @@ export default class BuildTeam {
 
     // Returns an uncached list of reviews.
     async getPSReviews(){
-        if(this.cities == null || this.cities.size == 0)
-            return [];
+        if(this.ps_cities == null || this.ps_cities.size == 0)
+            await this.loadBuildTeamData();
 
         const reviews = [];
-        for(const city of this.getPSCities()){
+        for(const city of await this.getPSCities()){
             const cityReviews = await this.getPSReviewsByCity(city.id);
             reviews.push(...cityReviews);
         }
@@ -198,7 +215,7 @@ export default class BuildTeam {
 
     // Returns an uncached list of plots for the given city id. If the city id is not found, an empty list is returned. 
     async getPSReviewsByCity(city_id: number){
-        if(!this.cities.has(city_id))
+        if(!this.ps_cities.has(city_id))
             return [];
 
         return await this.getPSCityReviewsFromDatabase(city_id);        

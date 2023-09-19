@@ -6,12 +6,16 @@ import express from "express";
 import joi from "joi";
 
 export default class Network {
+    private static readonly API_KEY_UPDATE_INTERVAL: number = 10; // 10 minutes
+
     private plotsystem_database: DatabaseHandler;
     private network_database: DatabaseHandler;
 
     private api_keys: any[] | null = null;
     private buildTeams = new Map();
     private plotSystem: PlotSystem;
+
+    private update_cache_ticks: number = 0;
 
     constructor(plotsystem_database: DatabaseHandler, network_database: DatabaseHandler) {
         this.plotsystem_database = plotsystem_database;
@@ -21,7 +25,10 @@ export default class Network {
     }
 
     async updateCache(isStarting: boolean = false) {
-        this.api_keys = await this.getAPIKeysFromDatabase();
+        this.update_cache_ticks++;
+
+        if(this.api_keys == null || this.update_cache_ticks % Network.API_KEY_UPDATE_INTERVAL == 0)
+            this.api_keys = await this.getAPIKeysFromDatabase();
 
         let bar = null;
         if (isStarting == true) {
@@ -46,14 +53,23 @@ export default class Network {
         this.plotSystem.updateCache();
 
         for (const apiKey of this?.api_keys?.values() ?? []) {
-            const buildTeam = this.getBuildTeam(apiKey);
+            const buildTeam = await this.getBuildTeam(apiKey);
 
             if (buildTeam == null) continue;
 
-            await buildTeam.updateCache();
+            buildTeam.updateCache();
 
             if (isStarting == true) bar?.tick();
         }
+
+
+        if(this.update_cache_ticks >= Number.MAX_SAFE_INTEGER - 100)
+            this.update_cache_ticks = 0;
+    }
+
+ 
+    getUpdateCacheTicks(): number {
+        return this.update_cache_ticks;
     }
 
     getAPIKeys(): string[] {
@@ -77,7 +93,7 @@ export default class Network {
         return this.plotsystem_database;
     }
 
-    getBuildTeam(api_key: string): BuildTeam | null {
+    async getBuildTeam(api_key: string): Promise<BuildTeam|null> {
         const api_keys = this.getAPIKeys();
 
         // Validate that the API key exists in the plot system database
@@ -87,7 +103,7 @@ export default class Network {
         if (this.buildTeams.has(api_key)) return this.buildTeams.get(api_key);
 
         // Create a new build team and add it to the cache
-        const buildTeam = new BuildTeam(api_key, this.plotsystem_database);
+        const buildTeam = new BuildTeam(api_key, this);
         this.buildTeams.set(api_key, buildTeam);
 
         return buildTeam;
@@ -110,7 +126,7 @@ export default class Network {
 
         //Validate that the API key exists in the plot system database
         const api_keys = this.getAPIKeys();
-        console.log(req.params);
+
         if (!api_keys.includes(req.params.apikey)) {
             res.status(401).send({ success: false, error: "Invalid API key" });
             return false;
@@ -122,8 +138,8 @@ export default class Network {
     // Get values from database
 
     async getAPIKeysFromDatabase() {
-        const SQL = "SELECT * FROM plotsystem_api_keys";
-        const result = await this.plotsystem_database.query(SQL); // result: [{"id":1,"api_key":"super_cool_api_key","created_at":"2022-06-23T18:00:09.000Z"}]
-        return result.map((row: { api_key: string }) => row.api_key); // result: ["super_cool_api_key"]
+        const SQL = "SELECT APIKey FROM BuildTeams";
+        const result = await this.network_database.query(SQL); // result: [{"APIKey":"super_cool_api_key"}]
+        return result.map((row: { APIKey: string }) => row.APIKey); // result: ["super_cool_api_key"]
     }
 }

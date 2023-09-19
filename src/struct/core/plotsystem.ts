@@ -2,18 +2,32 @@ import DatabaseHandler from "../database.js";
 import Network from "./network.js";
 
 export default class PlotSystem {
+
+  private static readonly BUILDERS_UPDATE_INTERVAL: number = 60 * 1; // 1 hour
+  private static readonly DIFFICULTIES_UPDATE_INTERVAL: number = 60 * 24; // 24 hours
+
+
+  private network: Network;
   private plotsystem_database: DatabaseHandler;
   private builders: any[] | null = null;
   private difficulties: any[] | null = null;
 
+
   constructor(network: Network) {
     this.plotsystem_database = network.getPlotSystemDatabase();
+    this.network = network;
   }
 
+  // Updates the cache for the build team to make sure the cache is up to date (Called once a minute)
   async updateCache(isStarting: boolean = false) {
-    this.builders = await this.getBuildersFromDatabase();
-    this.difficulties = await this.getDifficultiesFromDatabase();
+    if(this.builders == null || this.network.getUpdateCacheTicks() % PlotSystem.BUILDERS_UPDATE_INTERVAL == 0)
+        this.builders = await this.getBuildersFromDatabase();
+
+    if(this.builders == null || this.network.getUpdateCacheTicks() % PlotSystem.DIFFICULTIES_UPDATE_INTERVAL == 0)
+        this.difficulties = await this.getDifficultiesFromDatabase();
   }
+
+
 
   getPSBuilders() {
     if (this.builders == null) {

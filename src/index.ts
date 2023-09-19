@@ -72,10 +72,10 @@ router.use(express.json());
 router.use(cors());
 router.use(helmet());
 
-// A timer that runs every 10 minutes
+// A timer that runs every 1 minute
 setInterval(() => {
   network.updateCache();
-}, 10 * 60 * 1000);
+}, 1 * 60 * 1000);
 
 app.use("/", router);
 
