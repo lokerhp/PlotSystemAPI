@@ -8,32 +8,32 @@ import joi from "joi";
 export default class Network {
     private static readonly API_KEY_UPDATE_INTERVAL: number = 10; // 10 minutes
 
-    private plotsystem_database: DatabaseHandler;
-    private network_database: DatabaseHandler;
+    private plotsystemDatabase: DatabaseHandler;
+    private networkDatabase: DatabaseHandler;
 
-    private api_keys: any[] | null = null;
+    private apiKeys: any[] | null = null;
     private buildTeams = new Map();
     private plotSystem: PlotSystem;
 
-    private update_cache_ticks: number = 0;
+    private updateCacheTicks: number = 0;
 
-    constructor(plotsystem_database: DatabaseHandler, network_database: DatabaseHandler) {
-        this.plotsystem_database = plotsystem_database;
-        this.network_database = network_database;
+    constructor(plotsystemDatabase: DatabaseHandler, networkDatabase: DatabaseHandler) {
+        this.plotsystemDatabase = plotsystemDatabase;
+        this.networkDatabase = networkDatabase;
 
         this.plotSystem = new PlotSystem(this);
     }
 
     async updateCache(isStarting: boolean = false) {
-        this.update_cache_ticks++;
+        this.updateCacheTicks++;
 
-        if(this.api_keys == null || this.update_cache_ticks % Network.API_KEY_UPDATE_INTERVAL == 0)
-            this.api_keys = await this.getAPIKeysFromDatabase();
+        if(this.apiKeys == null || this.updateCacheTicks % Network.API_KEY_UPDATE_INTERVAL == 0)
+            this.apiKeys = await this.getAPIKeysFromDatabase();
 
         let bar = null;
         if (isStarting == true) {
             // Get how many API keys there are as an integer
-            var len = (this?.api_keys?.length ?? 0) + 1;
+            var len = (this?.apiKeys?.length ?? 0) + 1;
 
             // A process bar that shows the progress of the cache update
             bar = new ProgressBar("Starting NetworkAPI [:bar] :percent :etas", {
@@ -52,7 +52,7 @@ export default class Network {
 
         this.plotSystem.updateCache();
 
-        for (const apiKey of this?.api_keys?.values() ?? []) {
+        for (const apiKey of this?.apiKeys?.values() ?? []) {
             const buildTeam = await this.getBuildTeam(apiKey);
 
             if (buildTeam == null) continue;
@@ -63,22 +63,22 @@ export default class Network {
         }
 
 
-        if(this.update_cache_ticks >= Number.MAX_SAFE_INTEGER - 100)
-            this.update_cache_ticks = 0;
+        if(this.updateCacheTicks >= Number.MAX_SAFE_INTEGER - 100)
+            this.updateCacheTicks = 0;
     }
 
  
     getUpdateCacheTicks(): number {
-        return this.update_cache_ticks;
+        return this.updateCacheTicks;
     }
 
     getAPIKeys(): string[] {
-        if (this.api_keys == null) {
+        if (this.apiKeys == null) {
             this.updateCache();
             return [];
         }
 
-        return this.api_keys;
+        return this.apiKeys;
     }
 
     getPlotSystem(): PlotSystem {
@@ -86,25 +86,25 @@ export default class Network {
     }
 
     getNetworkDatabase(): DatabaseHandler {
-        return this.network_database;
+        return this.networkDatabase;
     }
 
     getPlotSystemDatabase(): DatabaseHandler {
-        return this.plotsystem_database;
+        return this.plotsystemDatabase;
     }
 
-    async getBuildTeam(api_key: string): Promise<BuildTeam|null> {
+    async getBuildTeam(apiKey: string): Promise<BuildTeam|null> {
         const api_keys = this.getAPIKeys();
 
         // Validate that the API key exists in the plot system database
-        if (!api_keys.includes(api_key)) return null;
+        if (!api_keys.includes(apiKey)) return null;
 
         // Check if the build team is already in the cache
-        if (this.buildTeams.has(api_key)) return this.buildTeams.get(api_key);
+        if (this.buildTeams.has(apiKey)) return this.buildTeams.get(apiKey);
 
         // Create a new build team and add it to the cache
-        const buildTeam = new BuildTeam(api_key, this);
-        this.buildTeams.set(api_key, buildTeam);
+        const buildTeam = new BuildTeam(apiKey, this);
+        this.buildTeams.set(apiKey, buildTeam);
 
         return buildTeam;
     }
@@ -139,7 +139,7 @@ export default class Network {
 
     async getAPIKeysFromDatabase() {
         const SQL = "SELECT APIKey FROM BuildTeams";
-        const result = await this.network_database.query(SQL); // result: [{"APIKey":"super_cool_api_key"}]
+        const result = await this.networkDatabase.query(SQL); // result: [{"APIKey":"super_cool_api_key"}]
         return result.map((row: { APIKey: string }) => row.APIKey); // result: ["super_cool_api_key"]
     }
 }

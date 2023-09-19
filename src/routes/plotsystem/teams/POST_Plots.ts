@@ -45,10 +45,10 @@ export async function initRoutes(app: Router, joi: any, network: Network) {
             const mc_coordinates = req.body[i].mc_coordinates;
             const outline = req.body[i].outline;
             const version = req.body[i].version;
-            let create_player = "API";
+            let createPlayer = "API";
 
             if(req.body.create_player != null)
-                create_player = req.body.create_player;
+                createPlayer = req.body.create_player;
 
 
             // Validate that the city exists
@@ -59,7 +59,7 @@ export async function initRoutes(app: Router, joi: any, network: Network) {
 
 
              // Create the plot in the database
-            const promise = buildTeam.createPSPlot(city_project_id, difficulty_id, mc_coordinates, outline, create_player, version);
+            const promise = buildTeam.createPSPlot(city_project_id, difficulty_id, mc_coordinates, outline, createPlayer, version);
 
 
             // Wait for the promise to resolve

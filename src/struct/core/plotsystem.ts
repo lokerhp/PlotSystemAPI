@@ -8,13 +8,13 @@ export default class PlotSystem {
 
 
   private network: Network;
-  private plotsystem_database: DatabaseHandler;
+  private plotsystemDatabase: DatabaseHandler;
   private builders: any[] | null = null;
   private difficulties: any[] | null = null;
 
 
   constructor(network: Network) {
-    this.plotsystem_database = network.getPlotSystemDatabase();
+    this.plotsystemDatabase = network.getPlotSystemDatabase();
     this.network = network;
   }
 
@@ -52,11 +52,11 @@ export default class PlotSystem {
 
   async getBuildersFromDatabase() {
     const SQL = "SELECT COUNT(uuid) as builders FROM plotsystem_builders";
-    return await this.plotsystem_database.query(SQL);
+    return await this.plotsystemDatabase.query(SQL);
   }
 
   async getDifficultiesFromDatabase() {
     const SQL = "SELECT * FROM plotsystem_difficulties";
-    return await this.plotsystem_database.query(SQL);
+    return await this.plotsystemDatabase.query(SQL);
   }
 }

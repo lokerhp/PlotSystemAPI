@@ -11,24 +11,24 @@ export interface Database {
 }
 
 export default class DatabaseHandler {
-  public database_settings!: Database;
+  public databaseSettings!: Database;
   public settings: Settings;
   private pool!: mariadb.Pool;
 
-  constructor(settings: Settings, database_settings: Database) {
-    this.database_settings = database_settings;
+  constructor(settings: Settings, databaseSettings: Database) {
+    this.databaseSettings = databaseSettings;
     this.settings = settings;
 
     console.log(
-      `Using Database at ${database_settings.host}:${database_settings.port}/${database_settings.db}`
+      `Using Database at ${databaseSettings.host}:${databaseSettings.port}/${databaseSettings.db}`
     );
 
     this.pool = mariadb.createPool({
-      host: database_settings.host,
-      user: database_settings.username,
-      password: database_settings.password,
-      connectionLimit: database_settings.max_conn,
-      database: database_settings.db,
+      host: databaseSettings.host,
+      user: databaseSettings.username,
+      password: databaseSettings.password,
+      connectionLimit: databaseSettings.max_conn,
+      database: databaseSettings.db,
     });
   }
 

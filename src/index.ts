@@ -13,10 +13,10 @@ const router = express.Router();
 // Plot System Imports
 
 const config = new Settings();
-const plotsystem_database = new Database(config, config.plotsystem_database);
-const network_database = new Database(config, config.network_database);
+const plotsystemDatabase = new Database(config, config.plotsystem_database);
+const networkDatabase = new Database(config, config.network_database);
 
-const network = new Network(plotsystem_database, network_database);
+const network = new Network(plotsystemDatabase, networkDatabase);
 
 // Init GET Routes for the API
 (await import("./routes/plotsystem/GET_Builders.js")).initRoutes(router, Joi, network.getPlotSystem());
@@ -50,7 +50,7 @@ const network = new Network(plotsystem_database, network_database);
   Joi,
   network
 );
-(await import("./routes/teams/GET_Teams.js")).initRoutes(
+(await import("./routes/teams/GET_Team.js")).initRoutes(
   router,
   Joi,
   network
