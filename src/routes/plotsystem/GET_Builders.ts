@@ -1,5 +1,5 @@
 import { Router } from "express";
-import PlotSystem from "../../../struct/core/plotsystem.js";
+import PlotSystem from "../../struct/core/plotsystem.js";
 
 export async function initRoutes(app: Router, joi: any, plotSystem: PlotSystem) {
 

@@ -1,9 +1,9 @@
 import { Router } from "express";
-import Network from "../../../../struct/core/network.js";
+import Network from "../../../struct/core/network.js";
 
 export async function initRoutes(app: Router, joi: any, network: Network) {
 
-    app.get('/api/plotsystem/teams/:apikey/servers', async function (req, res) {
+    app.get('/api/plotsystem/teams/:apikey/plots', async function (req, res) {
 
         // Validate that the API key is a valid GUID
         if(!network.validateAPIKey(req, res))
@@ -17,10 +17,10 @@ export async function initRoutes(app: Router, joi: any, network: Network) {
             return;
         }
 
-        const map = await buildTeam.getPSServers();
-
-        res.setHeader('Content-Type', 'application/json');
-        res.send(Object.fromEntries(map))
+        buildTeam.getPSPlots().then((plots) => {
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify(plots))
+        })
     })
 
 }

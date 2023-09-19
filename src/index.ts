@@ -19,38 +19,38 @@ const network_database = new Database(config, config.network_database);
 const network = new Network(plotsystem_database, network_database);
 
 // Init GET Routes for the API
-(await import("./routes/plotsystem/builders/GET.js")).initRoutes(router, Joi, network.getPlotSystem());
-(await import("./routes/plotsystem/difficulties/GET.js")).initRoutes(
+(await import("./routes/plotsystem/GET_Builders.js")).initRoutes(router, Joi, network.getPlotSystem());
+(await import("./routes/plotsystem/GET_Difficulties.js")).initRoutes(
   router,
   Joi,
   network.getPlotSystem()
 );
-(await import("./routes/plotsystem/teams/cities/GET.js")).initRoutes(
+(await import("./routes/plotsystem/teams/GET_Cities.js")).initRoutes(
   router,
   Joi,
   network
 );
-(await import("./routes/plotsystem/teams/countries/GET.js")).initRoutes(
+(await import("./routes/plotsystem/teams/GET_Countries.js")).initRoutes(
   router,
   Joi,
   network
 );
-(await import("./routes/plotsystem/teams/plots/GET.js")).initRoutes(
+(await import("./routes/plotsystem/teams/GET_Plots.js")).initRoutes(
   router,
   Joi,
   network
 );
-(await import("./routes/plotsystem/teams/reviews/GET.js")).initRoutes(
+(await import("./routes/plotsystem/teams/GET_Reviews.js")).initRoutes(
   router,
   Joi,
   network
 );
-(await import("./routes/plotsystem/teams/servers/GET.js")).initRoutes(
+(await import("./routes/plotsystem/teams/GET_Servers.js")).initRoutes(
   router,
   Joi,
   network
 );
-(await import("./routes/teams/GET.js")).initRoutes(
+(await import("./routes/teams/GET_Teams.js")).initRoutes(
   router,
   Joi,
   network
@@ -59,14 +59,14 @@ const network = new Network(plotsystem_database, network_database);
 
 // Init POST Routes for the API
 
-(await import("./routes/plotsystem/teams/plots/POST.js")).initRoutes(
+(await import("./routes/plotsystem/teams/POST_Plots.js")).initRoutes(
   router,
   Joi,
   network
 );
 
 // Init PUT Routes for the API
-(await import("./routes/plotsystem/teams/plots/PUT.js")).initRoutes(
+(await import("./routes/plotsystem/teams/PUT_Plots.js")).initRoutes(
   router,
   Joi,
   network

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import Network from "../../../../struct/core/network.js";
+import Network from "../../../struct/core/network.js";
 
 export async function initRoutes(app: Router, joi: any, network: Network) {
 
