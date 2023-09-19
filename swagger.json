@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://nwapi.buildtheearth.net/",
+      "url": "https://nwapi.buildtheearth.net/",
       "description": "Production Instance"
     },
     {
