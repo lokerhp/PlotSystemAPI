@@ -16,7 +16,7 @@ export default class BuildTeam {
     private psDatabase: DatabaseHandler
     private nwDatabase: DatabaseHandler
 
-    private psBuildTeamID: string | null;
+    private psBuildTeamID: string | null = null;
     private psCities: Map<number, any[]> = new Map() // Map<country_id, city>
     private psCountries: Map<number, any[]> = new Map() // Map<country_id, country>
     private psServers: Map<number, any[]> = new Map() // Map<server_id, server>
@@ -30,8 +30,6 @@ export default class BuildTeam {
         this.network = network;
         this.psDatabase = network.getPlotSystemDatabase();
         this.nwDatabase = network.getNetworkDatabase();
-
-        this.psBuildTeamID = null;
     }
 
 
@@ -60,6 +58,10 @@ export default class BuildTeam {
     async loadBuildTeamData(){
         if(this.psDatabase.settings.debug)
             console.log("Loading data for build team: " + this.apiKey)
+
+        // Get the build team information
+        this.buildTeamInfo = await this.getBuildTeamInfoFromDatabase();
+
 
         this.psBuildTeamID = await this.getPSBuildTeamIDFromDatabase();
 
@@ -93,11 +95,20 @@ export default class BuildTeam {
     /*              BuildTeam                  */
     /* ======================================= */
 
-    // Returns all information about the build team. If no information is found, null is returned.
-    async getBuildTeamInfo(){
-        console.log(this.apiKey)
-        console.log(await this.getBuildTeamInfoFromDatabase())
-        return await this.getBuildTeamInfoFromDatabase();
+    /** Returns information about the build team. 
+        If key is null, all information is returned, otherwise only the information for the given key is returned. 
+        If no information is found, null is returned.*/
+    async getBuildTeamInfo(key: string | null){
+        if(this.buildTeamInfo == null)
+            await this.loadBuildTeamData();
+
+        if(key == null)
+            return this.buildTeamInfo[0];
+
+        if(!this.buildTeamInfo[0].hasOwnProperty(key))
+            return null;
+
+        return this.buildTeamInfo[0][key];
     }
 
 

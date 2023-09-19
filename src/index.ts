@@ -55,6 +55,41 @@ const network = new Network(plotsystemDatabase, networkDatabase);
   Joi,
   network
 );
+(await import("./routes/teams/GET_TeamBlankName.js")).initRoutes(
+  router,
+  Joi,
+  network
+);
+(await import("./routes/teams/GET_TeamContinent.js")).initRoutes(
+  router,
+  Joi,
+  network
+);
+(await import("./routes/teams/GET_TeamDescription.js")).initRoutes(
+  router,
+  Joi,
+  network
+);
+(await import("./routes/teams/GET_TeamHeadID.js")).initRoutes(
+  router,
+  Joi,
+  network
+);
+(await import("./routes/teams/GET_TeamName.js")).initRoutes(
+  router,
+  Joi,
+  network
+);
+(await import("./routes/teams/GET_TeamOwners.js")).initRoutes(
+  router,
+  Joi,
+  network
+);
+(await import("./routes/teams/GET_TeamTag.js")).initRoutes(
+  router,
+  Joi,
+  network
+);
 
 
 // Init POST Routes for the API
