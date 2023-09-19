@@ -50,6 +50,13 @@ const network = new Network(plotsystem_database, network_database);
   Joi,
   network
 );
+(await import("./routes/teams/GET.js")).initRoutes(
+  router,
+  Joi,
+  network
+);
+
+
 // Init POST Routes for the API
 
 (await import("./routes/plotsystem/teams/plots/POST.js")).initRoutes(

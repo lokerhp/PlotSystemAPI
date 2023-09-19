@@ -13,6 +13,7 @@ export default class BuildTeam {
     private api_key: string;
     private network: Network;
     private ps_database: DatabaseHandler
+    private nw_database: DatabaseHandler
     private buildteamID: string | null;
 
     private ps_cities: Map<number, any[]> = new Map() // Map<country_id, city>
@@ -24,6 +25,7 @@ export default class BuildTeam {
         this.api_key = api_key;
         this.network = network;
         this.ps_database = network.getPlotSystemDatabase();
+        this.nw_database = network.getNetworkDatabase();
 
         this.buildteamID = null;
     }
@@ -78,6 +80,18 @@ export default class BuildTeam {
         }
     }
 
+
+
+    /* ======================================= */
+    /*              BuildTeam                  */
+    /* ======================================= */
+
+    // Returns all information about the build team. If no information is found, null is returned.
+    async getBuildTeamInfo(){
+        console.log(this.api_key)
+        console.log(await this.getBuildTeamInfoFromDatabase())
+        return await this.getBuildTeamInfoFromDatabase();
+    }
 
 
     /* ======================================= */
@@ -265,6 +279,11 @@ export default class BuildTeam {
     async getPSCityReviewsFromDatabase(city_id: number){
         const SQL = "SELECT a.* FROM plotsystem_reviews as a, plotsystem_plots as b WHERE a.id = b.review_id";
         return await this.ps_database.query(SQL, [city_id]);
+    }
+
+    async getBuildTeamInfoFromDatabase() {
+        const SQL = "SELECT * FROM BuildTeams WHERE APIKey = ?";
+        return await this.nw_database.query(SQL, [this.api_key]);
     }
 
 

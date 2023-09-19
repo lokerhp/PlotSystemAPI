@@ -23,7 +23,7 @@ export default class PlotSystem {
     if(this.builders == null || this.network.getUpdateCacheTicks() % PlotSystem.BUILDERS_UPDATE_INTERVAL == 0)
         this.builders = await this.getBuildersFromDatabase();
 
-    if(this.builders == null || this.network.getUpdateCacheTicks() % PlotSystem.DIFFICULTIES_UPDATE_INTERVAL == 0)
+    if(this.difficulties == null || this.network.getUpdateCacheTicks() % PlotSystem.DIFFICULTIES_UPDATE_INTERVAL == 0)
         this.difficulties = await this.getDifficultiesFromDatabase();
   }
 
