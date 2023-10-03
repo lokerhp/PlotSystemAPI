@@ -165,6 +165,16 @@ export default class BuildTeam {
         return this.psFTPConfiguration;        
     }
 
+    async getPSFTPConfigurationByServer(server_id: number){
+        if(this.psFTPConfiguration == null || this.psFTPConfiguration.size == 0)
+            await this.loadBuildTeamData();
+
+        if(!this.psFTPConfiguration.has(server_id))
+            return null;
+
+        return this.psFTPConfiguration.get(server_id);
+    }
+
     // Returns an uncached list of plots of this team. If no plots are found, an empty list is returned.
     async getPSPlots(){
         if(this.psCities == null || this.psCities.size == 0)
@@ -203,6 +213,29 @@ export default class BuildTeam {
             return plot;
 
         return null;
+    }
+
+    // Returns a country for the given country id. If not found null is returned
+    async getPSCountry(country_id: number){
+        if(this.psCountries == null || this.psCountries.size == 0)
+            await this.loadBuildTeamData();
+
+        if(!this.psCountries.has(country_id))
+            return null;
+
+        return this.psCountries.get(country_id);
+    }
+
+
+    // Returns a server for the given server id. If not found null is returned
+    async getPSServer(server_id: number){
+        if(this.psServers == null || this.psServers.size == 0)
+            await this.loadBuildTeamData();
+
+        if(!this.psServers.has(server_id))
+            return null;
+
+        return this.psServers.get(server_id);
     }
 
     // Returns an uncached list of plots for the given city id. If the city id is not found, an empty list is returned. 
